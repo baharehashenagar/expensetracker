@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface IBudgetGoalRepository extends JpaRepository<BudgetGoalEntity, Integer> {
 
-    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.userId=:userId and bg.categoryId=:categoryId " +
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId " +
             "and bg.budgetDate <= :date and bg.budgetDate >= :date ")
     public List<BudgetGoalEntity> findUserBudgetGoalForSpecificMonth(Integer userId, Integer categoryId, Date date);
 }

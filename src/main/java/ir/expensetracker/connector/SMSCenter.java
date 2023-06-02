@@ -6,32 +6,68 @@ import ir.expensetracker.constants.Constants;
 import ir.expensetracker.exception.SMSException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
+@Component
 public class SMSCenter {
 	private static ObjectMapper mapper=new ObjectMapper();
 	private static Logger logger = LogManager.getLogger(SMSCenter.class);
 
-	public static void sendSMS(String url, String token, String cellPhone, String message) {
+	@Value("${SMS.URL}")
+	private String smsUrl;
+
+	@Value("${SMS.ORIGINATOR}")
+	private String smsOriginator;
+
+	@Value("${SMS.TOKEN}")
+	private String token;
+
+	@Value("${SMS.FORGET_PASSWORD_MESSAGE}")
+	private String forgetPasswordMessage;
+
+	@Value("${SMS.REGISTRATION_MESSAGE}")
+	private String registrationMessage;
+
+	@Value("${SMS.CHANGE_PASSWORD_MESSAGE}")
+	private String changePasswordMessage;
+
+	private void sendSMS(String cellPhone, String message) {
+		String messageToken=("AccessKey "+token);
 		List<String> recipients=new ArrayList<>();
 		recipients.add(cellPhone);
 
 		Map<String,Object> body = new HashMap<>();
-		body.put(Constants.SMS_ORIGINATOR, "+983000505");
+		body.put(Constants.SMS_ORIGINATOR, smsOriginator);
 		body.put(Constants.SMS_RECIPIENTS, recipients);
 		body.put(Constants.SMS_MESSAGE, message);
 
 		try {
-			Map<String,Object> result= HTTPCaller.postRequest(url, token, mapper.writeValueAsString(body));
+			Map<String,Object> result= HTTPCaller.postRequest(smsUrl, messageToken, mapper.writeValueAsString(body));
 			if(!Integer.valueOf(result.get(Constants.HTTPSTATUSCODE).toString()).equals(Constants.SMS_SUCCESSSTATUSCODE)){
 				throw new SMSException(result.toString(), Constants.SMS_ERROR);
 			}
 		} catch (JsonProcessingException e) {
 			logger.error(e,e);
 		}
+	}
+
+	public void sendRegistrationSMS(String cellPhone, String username ,String password){
+		sendSMS(cellPhone, (registrationMessage+System.lineSeparator()+username+System.lineSeparator()+password));
+	}
+
+
+	public void sendForgetPasswordSMS(String cellPhone){
+		sendSMS(cellPhone, forgetPasswordMessage);
+	}
+
+
+	public void sendChangePasswordSMS(String cellPhone){
+		sendSMS(cellPhone, changePasswordMessage);
 	}
 }

@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ITransactionRepository extends JpaRepository<TransactionsEntity, Integer> {
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.userId =:userId")
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId")
     public UserEntity findAllTransactionsOfUser(Integer userId);
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.userId =:userId and t.categoryId=:categoryId")
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.category.id=:categoryId")
     public UserEntity findAllTransactionsOfUserForSpecificCategory(Integer userId, Integer categoryId);
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.userId =:userId and t.amount >=:amount")
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.amount >=:amount")
     public UserEntity findAllTransactionsOfUserGreaterThanSpecificAmount(Integer userId, Integer amount);
 
 }

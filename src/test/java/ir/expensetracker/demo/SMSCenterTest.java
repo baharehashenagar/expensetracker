@@ -9,6 +9,6 @@ public class SMSCenterTest {
     @Test
     @Ignore
     public void sendSms(){
-        SMSCenter.sendSMS("http://rest.ippanel.com/v1/messages","AccessKey KnHFVdv37G2KSwGIWuN2pUtByDDYyPE60um3eRL0WZA=","+989173164146","Hello");
+        //SMSCenter.sendSMS("http://rest.ippanel.com/v1/messages","AccessKey KnHFVdv37G2KSwGIWuN2pUtByDDYyPE60um3eRL0WZA=","+989173164146","Hello");
     }
 }

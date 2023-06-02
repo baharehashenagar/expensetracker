@@ -14,11 +14,11 @@ public class TransactionsEntity {
 
     @ManyToOne
     @JoinColumn(name = "CATEGORYID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
-    private Integer categoryId;
+    private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
-    private Integer userId;
+    private UserEntity user;
 
     @Column(name = "DESCRIPTION")
     private String description;
@@ -37,20 +37,20 @@ public class TransactionsEntity {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public String getDescription() {
@@ -81,8 +81,8 @@ public class TransactionsEntity {
     public String toString() {
         return "TransactionsEntity{" +
                 "id=" + id +
-                ", categoryId=" + categoryId +
-                ", userId=" + userId +
+                ", category=" + category +
+                ", user=" + user +
                 ", description='" + description + '\'' +
                 ", transactionDate=" + transactionDate +
                 ", amount=" + amount +

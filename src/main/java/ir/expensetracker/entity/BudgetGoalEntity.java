@@ -14,11 +14,11 @@ public class BudgetGoalEntity {
 
     @ManyToOne
     @JoinColumn(name = "CATEGORYID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
-    private Integer categoryId;
+    private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
-    private Integer userId;
+    private UserEntity user;
 
     @Column(name = "MAXAMOUNT", nullable = false)
     private Integer maxAmount;
@@ -34,20 +34,20 @@ public class BudgetGoalEntity {
         this.id = id;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public Integer getMaxAmount() {
@@ -70,8 +70,8 @@ public class BudgetGoalEntity {
     public String toString() {
         return "BudgetGoalEntity{" +
                 "id=" + id +
-                ", categoryId=" + categoryId +
-                ", userId=" + userId +
+                ", category=" + category +
+                ", user=" + user +
                 ", maxAmount=" + maxAmount +
                 ", budgetDate=" + budgetDate +
                 '}';

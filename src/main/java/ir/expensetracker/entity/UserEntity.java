@@ -21,7 +21,7 @@ public class UserEntity {
     private String fullname;
 
     @Column(name = "MOBILENUMBER" ,nullable = false)
-    private Integer mobileNumber;
+    private String mobileNumber;
 
     public Integer getId() {
         return id;
@@ -55,11 +55,11 @@ public class UserEntity {
         this.fullname = fullname;
     }
 
-    public Integer getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(Integer mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 

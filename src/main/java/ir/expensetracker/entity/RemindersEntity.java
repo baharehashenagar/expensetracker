@@ -14,7 +14,7 @@ public class RemindersEntity {
 
     @ManyToOne
     @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
-    private Integer userId;
+    private UserEntity user;
 
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
@@ -30,12 +30,12 @@ public class RemindersEntity {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public String getDescription() {
@@ -58,7 +58,7 @@ public class RemindersEntity {
     public String toString() {
         return "RemindersEntity{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", description='" + description + '\'' +
                 ", dueDate='" + dueDate + '\'' +
                 '}';
