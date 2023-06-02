@@ -1,29 +1,37 @@
 package ir.expensetracker.connector;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import ir.expensetracker.constants.Constants;
+import ir.expensetracker.exception.SMSException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 public class SMSCenter {
-	private static String url = CoreBundle.SMS_URL;
+	private static ObjectMapper mapper=new ObjectMapper();
+	private static Logger logger = LogManager.getLogger(SMSCenter.class);
 
-	public static void sendSMS(String cellPhone, String nationalCode,String password) {
-		String message = CoreBundle.SMS_MESSAGE_TEXT + System.lineSeparator() +
-				System.lineSeparator() +
-				CoreBundle.SMS_USERNAME + nationalCode + System.lineSeparator() +
-				CoreBundle.SMS_PASSWORD + password + System.lineSeparator() +
-				System.lineSeparator() +
-				CoreBundle.SMS_MESSAGE_TEXT2;
+	public static void sendSMS(String url, String token, String cellPhone, String message) {
+		List<String> recipients=new ArrayList<>();
+		recipients.add(cellPhone);
 
-		JSONObject body = new JSONObject();
-		body.put(CoreBundle.SMS_NUMBERS, new JSONArray().put(cellPhone));
-		body.put(CoreBundle.SMS_TEXT, message);
-		body.put(CoreBundle.SMS_ENCODING, 0);
-		body.put(CoreBundle.SMS_SENDERCODE, 0);
-		JSONObject result=HTTPCaller.postRequest(url, body.toString());
-		if(result.getInt(CommonBundle.HTTPSTATUSCODE)!=CoreBundle.SMS_SUCCESSSTATUSCODE|| !new JSONObject(result.getString(CommonBundle.HTTPRESULT)).get(CoreBundle.SMS_BUSINESSERRORS).equals(JSONObject.NULL)){
-			throw new SMSException(result.toString(), ErrorBundle.smsError);
+		Map<String,Object> body = new HashMap<>();
+		body.put(Constants.SMS_ORIGINATOR, "+983000505");
+		body.put(Constants.SMS_RECIPIENTS, recipients);
+		body.put(Constants.SMS_MESSAGE, message);
+
+		try {
+			Map<String,Object> result= HTTPCaller.postRequest(url, token, mapper.writeValueAsString(body));
+			if(!Integer.valueOf(result.get(Constants.HTTPSTATUSCODE).toString()).equals(Constants.SMS_SUCCESSSTATUSCODE)){
+				throw new SMSException(result.toString(), Constants.SMS_ERROR);
+			}
+		} catch (JsonProcessingException e) {
+			logger.error(e,e);
 		}
-	}
-
-
-	public static void main(String[] args) {
-		sendSMS("", "196007472","1234");
 	}
 }
