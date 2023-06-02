@@ -1,7 +1,10 @@
 package ir.expensetracker.service.facade;
 
+import ir.expensetracker.api.*;
+
 public interface IBudgetGoalService {
 
-    public void createBudgetGoal();
-    public void deleteBudgetGoal();
+    public BudgetGoalCreateResult createBudgetGoal(BudgetGoalCreateParam param);
+    public BudgetGoalDeleteResult deleteBudgetGoal(BudgetGoalDeleteParam param);
+    public BudgetGoalOfUserResult findUserBudgetGoals(BudgetGoalOfUserParam param);
 }
