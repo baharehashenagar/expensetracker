@@ -7,6 +7,6 @@ public interface IUserService {
 
    public UserCreateResult createUser(UserCreateParam input) throws InvalidParameterException;
    public UserChangePasswordResult changePassword(UserChangePasswordParam input);
-   public UserChangePasswordResult forgetPassword(UserForgetPasswordParam input);
-   public void login();
+   public UserForgetPasswordResult forgetPassword(UserForgetPasswordParam input);
+   public UserLoginResult login(UserLoginParam input);
 }

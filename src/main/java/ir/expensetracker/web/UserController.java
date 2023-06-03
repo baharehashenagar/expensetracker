@@ -1,6 +1,9 @@
 package ir.expensetracker.web;
 
+import ir.expensetracker.api.UserChangePasswordParam;
 import ir.expensetracker.api.UserCreateParam;
+import ir.expensetracker.api.UserForgetPasswordParam;
+import ir.expensetracker.api.UserLoginParam;
 import ir.expensetracker.exception.InvalidParameterException;
 import ir.expensetracker.service.facade.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,34 @@ public class UserController {
         try {
             return ResponseEntity.ok(userService.createUser(user));
         } catch (InvalidParameterException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/changepassword")
+    public ResponseEntity<Object> changePassword(@RequestBody UserChangePasswordParam user) {
+        try {
+            return ResponseEntity.ok(userService.changePassword(user));
+        } catch (InvalidParameterException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/forgetpassword")
+    public ResponseEntity<Object> forgetPassword(@RequestBody UserForgetPasswordParam user) {
+        try {
+            return ResponseEntity.ok(userService.forgetPassword(user));
+        } catch (InvalidParameterException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity<Object> login(@RequestBody UserLoginParam user) {
+        try {
+            return ResponseEntity.ok(userService.login(user));
+        } catch (InvalidParameterException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

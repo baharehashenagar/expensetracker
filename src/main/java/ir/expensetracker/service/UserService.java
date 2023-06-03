@@ -46,16 +46,45 @@ public class UserService implements IUserService {
 
     @Override
     public UserChangePasswordResult changePassword(UserChangePasswordParam input) {
-        return null;
+        UserEntity result=userRepository.findByUsername(input.getUsername());
+        if(result==null){
+            throw new InvalidParameterException("Invalid Username");
+        }
+        if(input.getNewPassword()==null || input.getNewPassword().equals("") || !input.getNewPassword().equals(input.getNewPasswordConfirm())){
+            throw new InvalidParameterException("Passwords are empty or do not match");
+        }
+        result.setPassword(SecurityUtil.SHA256(input.getNewPassword()));
+        return new UserChangePasswordResult(true);
     }
 
     @Override
-    public UserChangePasswordResult forgetPassword(UserForgetPasswordParam input) {
-        return null;
+    public UserForgetPasswordResult forgetPassword(UserForgetPasswordParam input) {
+        UserEntity user=userRepository.findByUsername(input.getUsername());
+        if(user==null){
+            throw new InvalidParameterException("Invalid Username");
+        }
+        if(input.getMobileNumber()==null || input.getMobileNumber().equals("") || input.getMobileNumber().length()!=11
+                || !user.getMobileNumber().substring(3).equals(input.getMobileNumber().substring(1))){
+            throw new InvalidParameterException("Invalid MobileNumber");
+        }
+        String password= SecurityUtil.generateRandomPassword();
+        user.setPassword(SecurityUtil.SHA256(password));
+        userRepository.save(user);
+        smsCenter.sendForgetPasswordSMS(input.getMobileNumber(),password);
+        return new UserForgetPasswordResult(true);
     }
 
     @Override
-    public void login() {
-
+    public UserLoginResult login(UserLoginParam input){
+        UserEntity user=userRepository.findByUsername(input.getUsername());
+        if(user==null){
+            throw new InvalidParameterException("Invalid Username");
+        }
+        if(input.getPassword()==null || input.getPassword().equals("") || user.getPassword().equals(SecurityUtil.SHA256(input.getPassword()))){
+            throw new InvalidParameterException("Invalid Password");
+        }
+        String token="";
+        //TODO generate token
+        return new UserLoginResult(token);
     }
 }

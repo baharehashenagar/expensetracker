@@ -34,9 +34,6 @@ public class SMSCenter {
 	@Value("${SMS.REGISTRATION_MESSAGE}")
 	private String registrationMessage;
 
-	@Value("${SMS.CHANGE_PASSWORD_MESSAGE}")
-	private String changePasswordMessage;
-
 	private void sendSMS(String cellPhone, String message) {
 		String messageToken=("AccessKey "+token);
 		List<String> recipients=new ArrayList<>();
@@ -61,13 +58,7 @@ public class SMSCenter {
 		sendSMS(cellPhone, (registrationMessage+System.lineSeparator()+username+System.lineSeparator()+password));
 	}
 
-
-	public void sendForgetPasswordSMS(String cellPhone){
-		sendSMS(cellPhone, forgetPasswordMessage);
-	}
-
-
-	public void sendChangePasswordSMS(String cellPhone){
-		sendSMS(cellPhone, changePasswordMessage);
+	public void sendForgetPasswordSMS(String cellPhone, String password){
+		sendSMS(cellPhone, forgetPasswordMessage+System.lineSeparator()+password);
 	}
 }

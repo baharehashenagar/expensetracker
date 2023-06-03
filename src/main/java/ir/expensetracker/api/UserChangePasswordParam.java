@@ -2,7 +2,8 @@ package ir.expensetracker.api;
 
 public class UserChangePasswordParam {
     private String username;
-    private String password;
+    private String newPassword;
+    private String newPasswordConfirm;
 
     public String getUsername() {
         return username;
@@ -12,11 +13,19 @@ public class UserChangePasswordParam {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getNewPasswordConfirm() {
+        return newPasswordConfirm;
+    }
+
+    public void setNewPasswordConfirm(String newPasswordConfirm) {
+        this.newPasswordConfirm = newPasswordConfirm;
     }
 }
