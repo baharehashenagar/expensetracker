@@ -10,6 +10,8 @@ import ir.expensetracker.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements IUserService {
 
@@ -25,7 +27,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserCreateResult createUser(UserCreateParam input) throws InvalidParameterException {
-        UserEntity result=userRepository.findByUsername(input.getUsername());
+        UserEntity result=getUser(input.getUsername());
         if(result!=null){
             throw new InvalidParameterException("Duplicate Username");
         }
@@ -46,7 +48,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserChangePasswordResult changePassword(UserChangePasswordParam input) {
-        UserEntity result=userRepository.findByUsername(input.getUsername());
+        UserEntity result=getUser(input.getUsername());
         if(result==null){
             throw new InvalidParameterException("Invalid Username");
         }
@@ -59,7 +61,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserForgetPasswordResult forgetPassword(UserForgetPasswordParam input) {
-        UserEntity user=userRepository.findByUsername(input.getUsername());
+        UserEntity user=getUser(input.getUsername());
         if(user==null){
             throw new InvalidParameterException("Invalid Username");
         }
@@ -76,7 +78,7 @@ public class UserService implements IUserService {
 
     @Override
     public UserLoginResult login(UserLoginParam input){
-        UserEntity user=userRepository.findByUsername(input.getUsername());
+        UserEntity user=getUser(input.getUsername());
         if(user==null){
             throw new InvalidParameterException("Invalid Username");
         }
@@ -86,5 +88,15 @@ public class UserService implements IUserService {
         String token="";
         //TODO generate token
         return new UserLoginResult(token);
+    }
+
+    @Override
+    public UserEntity getUser(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<UserEntity> getUserById(Integer userId) {
+        return userRepository.findById(userId);
     }
 }

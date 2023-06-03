@@ -6,6 +6,13 @@ public class AllTransactionsResult {
     private String date;
     private Integer amount;
 
+    public AllTransactionsResult(String category, String description, String date, Integer amount) {
+        this.category = category;
+        this.description = description;
+        this.date = date;
+        this.amount = amount;
+    }
+
     public String getCategory() {
         return category;
     }

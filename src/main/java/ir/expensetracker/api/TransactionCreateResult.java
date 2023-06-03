@@ -4,6 +4,11 @@ public class TransactionCreateResult {
     private Integer transacionId;
     private String alert;
 
+    public TransactionCreateResult(Integer transacionId, String alert) {
+        this.transacionId = transacionId;
+        this.alert = alert;
+    }
+
     public Integer getTransacionId() {
         return transacionId;
     }

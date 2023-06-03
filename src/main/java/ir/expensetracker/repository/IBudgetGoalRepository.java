@@ -13,5 +13,11 @@ public interface IBudgetGoalRepository extends JpaRepository<BudgetGoalEntity, I
 
     @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId " +
             "and bg.budgetDate <= :date and bg.budgetDate >= :date ")
-    public List<BudgetGoalEntity> findUserBudgetGoalForSpecificMonth(Integer userId, Integer categoryId, Date date);
+    public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategoryInMonth(Integer userId, Integer categoryId, Date date);
+
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId ")
+    public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategory(Integer userId, Integer categoryId);
+
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.category.id=:categoryId")
+    public List<BudgetGoalEntity> findBudgetGoalForSpecificCategory(Integer categoryId);
 }

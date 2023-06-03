@@ -1,17 +1,17 @@
 package ir.expensetracker.api;
 
 public class CategoryCreateResult {
-    private boolean success;
+    private Integer categoryId;
 
-    public CategoryCreateResult(boolean success) {
-        this.success = success;
+    public CategoryCreateResult(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }
