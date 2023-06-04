@@ -23,6 +23,8 @@ public class UserController {
             return ResponseEntity.ok(userService.createUser(user));
         } catch (InvalidParameterException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -32,6 +34,8 @@ public class UserController {
             return ResponseEntity.ok(userService.changePassword(user));
         } catch (InvalidParameterException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -41,6 +45,8 @@ public class UserController {
             return ResponseEntity.ok(userService.forgetPassword(user));
         } catch (InvalidParameterException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -50,6 +56,8 @@ public class UserController {
             return ResponseEntity.ok(userService.login(user));
         } catch (InvalidParameterException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 }
