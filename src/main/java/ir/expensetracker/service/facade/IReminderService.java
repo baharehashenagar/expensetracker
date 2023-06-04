@@ -10,4 +10,5 @@ public interface IReminderService {
     public ReminderDeleteResult deleteReminder(ReminderDeleteParam param);
     public List<RemindersOfUserResult> findUserRemindersForSpecificDate(Integer userId, String date);
     public List<RemindersOfUserResult> findUserReminders(Integer userId);
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date);
 }

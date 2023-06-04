@@ -16,4 +16,7 @@ public interface IRemindersRepository extends JpaRepository<RemindersEntity, Int
 
     @Query(value = "SELECT r FROM RemindersEntity as r WHERE r.user.id =:userId")
     public List<RemindersEntity> findUserReminders(Integer userId);
+
+    @Query(value = "SELECT r FROM RemindersEntity as r WHERE r.dueDate >= :date and r.dueDate <= :date")
+    public List<RemindersEntity> findAllRemindersForSpecificDate(Date date);
 }

@@ -73,4 +73,14 @@ public class ReminderService implements IReminderService {
         List<RemindersOfUserResult> result=remindersList.stream().map(r->new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
         return result;
     }
+
+    @Override
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date) {
+        if(date==null || date.equals("") || DateUtil.toDate(date)==null){
+            throw new InvalidParameterException("Date is empty");
+        }
+        List<RemindersEntity> remindersList=remindersRepository.findAllRemindersForSpecificDate(DateUtil.toDate(date));
+        List<AllRemindersResult> result=remindersList.stream().map(r->new AllRemindersResult(r.getDescription(),
+                r.getUser().getUsername(),r.getUser().getMobileNumber())).collect(Collectors.toList());
+        return result;    }
 }
