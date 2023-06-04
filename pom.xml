@@ -20,6 +20,7 @@
         <hibernate.version>5.6.11.Final</hibernate.version>
         <junit.version>4.10</junit.version>
         <ojdbc.version>23.2.0.0</ojdbc.version>
+        <swagger.version>2.7.0</swagger.version>
     </properties>
     <dependencies>
         <dependency>
@@ -64,7 +65,17 @@
             <artifactId>ojdbc8</artifactId>
             <version>${ojdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
