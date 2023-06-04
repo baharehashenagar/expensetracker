@@ -3,6 +3,7 @@ package ir.expensetracker.api;
 public class BudgetGoalOfUserParam {
     private String date;
     private Integer userId;
+    private String category;
 
     public String getDate() {
         return date;
@@ -18,5 +19,13 @@ public class BudgetGoalOfUserParam {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

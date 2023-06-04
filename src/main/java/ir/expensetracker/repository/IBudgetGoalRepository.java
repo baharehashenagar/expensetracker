@@ -18,6 +18,9 @@ public interface IBudgetGoalRepository extends JpaRepository<BudgetGoalEntity, I
     @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId ")
     public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategory(Integer userId, Integer categoryId);
 
-    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.category.id=:categoryId")
-    public List<BudgetGoalEntity> findBudgetGoalForSpecificCategory(Integer categoryId);
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.budgetDate <= :date and bg.budgetDate >= :date ")
+    public List<BudgetGoalEntity> findUserBudgetGoalInMonth(Integer userId, Date date);
+
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId")
+    public List<BudgetGoalEntity> findUserBudgetGoal(Integer userId);
 }
