@@ -3,7 +3,6 @@ package ir.expensetracker.web;
 
 import ir.expensetracker.api.ReminderCreateParam;
 import ir.expensetracker.api.ReminderDeleteParam;
-import ir.expensetracker.api.UserCreateParam;
 import ir.expensetracker.exception.InvalidParameterException;
 import ir.expensetracker.service.facade.IReminderService;
 import org.springframework.beans.factory.annotation.Autowired;

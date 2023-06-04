@@ -55,7 +55,7 @@ public class SMSCenter {
 	}
 
 	public void sendRegistrationSMS(String cellPhone, String username ,String password){
-		sendSMS(cellPhone, (registrationMessage+System.lineSeparator()+username+System.lineSeparator()+password));
+		sendSMS(cellPhone, (registrationMessage+"Your username="+username+" your password="+password));
 	}
 
 	public void sendForgetPasswordSMS(String cellPhone, String password){
