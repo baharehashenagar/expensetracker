@@ -34,4 +34,13 @@ public class BudgetGoalOfUserResult {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "category='" + category + '\'' +
+                ", maxAmount=" + maxAmount +
+                ", dueDate='" + dueDate + '\'' +
+                '}';
+    }
 }

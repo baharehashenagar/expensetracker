@@ -28,4 +28,13 @@ public class AllTransactionsInMonthGreaterThanSpecificAmountParam {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "userId=" + userId +
+                ", date='" + date + '\'' +
+                ", amount=" + amount +
+                '}';
+    }
 }

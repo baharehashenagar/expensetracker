@@ -28,4 +28,13 @@ public class UserChangePasswordParam {
     public void setNewPasswordConfirm(String newPasswordConfirm) {
         this.newPasswordConfirm = newPasswordConfirm;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "username='" + username + '\'' +
+                ", newPassword='" + newPassword + '\'' +
+                ", newPasswordConfirm='" + newPasswordConfirm + '\'' +
+                '}';
+    }
 }

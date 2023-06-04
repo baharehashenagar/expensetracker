@@ -44,4 +44,14 @@ public class AllTransactionsResult {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "category='" + category + '\'' +
+                ", description='" + description + '\'' +
+                ", date='" + date + '\'' +
+                ", amount=" + amount +
+                '}';
+    }
 }

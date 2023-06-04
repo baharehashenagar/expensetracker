@@ -19,4 +19,12 @@ public class UserForgetPasswordParam {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "username='" + username + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                '}';
+    }
 }

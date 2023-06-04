@@ -34,4 +34,13 @@ public class AllRemindersResult {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "description='" + description + '\'' +
+                ", username='" + username + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                '}';
+    }
 }

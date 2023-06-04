@@ -28,4 +28,13 @@ public class UserCreateParam {
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "username='" + username + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                '}';
+    }
 }

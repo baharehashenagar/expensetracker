@@ -14,4 +14,11 @@ public class ReminderDeleteParam {
     public void setReminderId(Integer reminderId) {
         this.reminderId = reminderId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "reminderId=" + reminderId +
+                '}';
+    }
 }

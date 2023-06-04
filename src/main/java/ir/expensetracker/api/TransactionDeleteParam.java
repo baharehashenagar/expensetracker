@@ -14,4 +14,11 @@ public class TransactionDeleteParam {
     public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "transactionId=" + transactionId +
+                '}';
+    }
 }

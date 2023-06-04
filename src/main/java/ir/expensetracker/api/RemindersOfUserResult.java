@@ -24,4 +24,12 @@ public class RemindersOfUserResult {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "description='" + description + '\'' +
+                ", dueDate='" + dueDate + '\'' +
+                '}';
+    }
 }

@@ -28,4 +28,13 @@ public class ReminderCreateParam {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "description='" + description + '\'' +
+                ", dueDate='" + dueDate + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }

@@ -28,4 +28,13 @@ public class AllTransactionsInMonthByCategoryParam {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "userId=" + userId +
+                ", date='" + date + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

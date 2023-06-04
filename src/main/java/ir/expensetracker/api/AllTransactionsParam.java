@@ -14,4 +14,11 @@ public class AllTransactionsParam {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "userId=" + userId +
+                '}';
+    }
 }

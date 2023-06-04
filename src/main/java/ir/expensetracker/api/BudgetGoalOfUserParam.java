@@ -28,4 +28,13 @@ public class BudgetGoalOfUserParam {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "date='" + date + '\'' +
+                ", userId=" + userId +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

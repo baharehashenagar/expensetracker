@@ -14,4 +14,11 @@ public class BudgetGoalCreateResult {
     public void setBudgetGoalId(Integer budgetGoalId) {
         this.budgetGoalId = budgetGoalId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "budgetGoalId=" + budgetGoalId +
+                '}';
+    }
 }

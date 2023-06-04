@@ -10,4 +10,11 @@ public class SaveTransactionsInExcelResult {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "success=" + success +
+                '}';
+    }
 }

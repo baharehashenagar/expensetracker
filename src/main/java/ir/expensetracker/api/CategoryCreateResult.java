@@ -14,4 +14,11 @@ public class CategoryCreateResult {
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "categoryId=" + categoryId +
+                '}';
+    }
 }

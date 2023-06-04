@@ -24,4 +24,12 @@ public class TransactionCreateResult {
     public void setAlert(String alert) {
         this.alert = alert;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "transacionId=" + transacionId +
+                ", alert='" + alert + '\'' +
+                '}';
+    }
 }

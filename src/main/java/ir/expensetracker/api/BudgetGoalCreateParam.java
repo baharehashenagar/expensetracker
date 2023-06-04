@@ -37,4 +37,14 @@ public class BudgetGoalCreateParam {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "category='" + category + '\'' +
+                ", maxAmount=" + maxAmount +
+                ", date='" + date + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }
