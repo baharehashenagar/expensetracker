@@ -6,5 +6,4 @@ import ir.expensetracker.entity.UserEntity;
 public interface IValidatorService {
     public UserEntity validateUserExistence(Integer userId);
     public CategoryEntity validateCategoryExistence(String categoryName);
-    public UserEntity validateRepetitiveUser(Integer userId);
 }

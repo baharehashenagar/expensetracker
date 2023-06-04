@@ -39,9 +39,4 @@ public class ValidatorService implements IValidatorService {
         }
         return category;
     }
-
-    @Override
-    public UserEntity validateRepetitiveUser(Integer userId) {
-        return null;
-    }
 }

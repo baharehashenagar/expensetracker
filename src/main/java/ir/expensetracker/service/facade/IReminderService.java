@@ -1,12 +1,13 @@
 package ir.expensetracker.service.facade;
 
-import ir.expensetracker.api.ReminderCreateParam;
-import ir.expensetracker.api.ReminderCreateResult;
-import ir.expensetracker.api.ReminderDeleteParam;
-import ir.expensetracker.api.ReminderDeleteResult;
+import ir.expensetracker.api.*;
+
+import java.util.List;
 
 public interface IReminderService {
 
     public ReminderCreateResult createReminder(ReminderCreateParam param);
     public ReminderDeleteResult deleteReminder(ReminderDeleteParam param);
+    public List<RemindersOfUserResult> findUserRemindersForSpecificDate(Integer userId, String date);
+    public List<RemindersOfUserResult> findUserReminders(Integer userId);
 }
