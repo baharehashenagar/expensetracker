@@ -30,9 +30,9 @@ public class UserController {
     }
 
     @PutMapping(value = "/changepassword")
-    public ResponseEntity<Object> changePassword(@RequestBody UserChangePasswordParam user) {
+    public ResponseEntity<Object> changePassword(@RequestBody UserChangePasswordParam user,@RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(userService.changePassword(user));
+            return ResponseEntity.ok(userService.changePassword(user, jwt));
         } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {

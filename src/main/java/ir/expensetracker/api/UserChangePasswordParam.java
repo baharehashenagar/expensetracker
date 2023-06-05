@@ -1,17 +1,8 @@
 package ir.expensetracker.api;
 
 public class UserChangePasswordParam {
-    private String username;
     private String newPassword;
     private String newPasswordConfirm;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getNewPassword() {
         return newPassword;
@@ -32,7 +23,6 @@ public class UserChangePasswordParam {
     @Override
     public String toString() {
         return "{" +
-                "username='" + username + '\'' +
                 ", newPassword='" + newPassword + '\'' +
                 ", newPasswordConfirm='" + newPasswordConfirm + '\'' +
                 '}';

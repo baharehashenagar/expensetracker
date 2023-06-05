@@ -11,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JWTTokenFilter extends OncePerRequestFilter {
@@ -21,16 +23,28 @@ public class JWTTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if(!hasAuthorizationHeader(request)){
+        List<String> whiteList=new ArrayList<>();
+        whiteList.add("/v2/api-docs");
+        whiteList.add("/configuration/ui");
+        whiteList.add("/swagger-resources/**");
+        whiteList.add("/configuration/security");
+        whiteList.add("/swagger-ui.html");
+        whiteList.add("/webjars/**");
+        whiteList.add("/api/users/login");
+        whiteList.add("/api/users");
+        whiteList.add("/api/users/forgetpassword");
+        if(whiteList.contains(request.getRequestURI())){
             filterChain.doFilter(request,response);
             return;
+        }
+        if(!hasAuthorizationHeader(request)){
+            throw new ServletException(" Invalid Token");
         }
         String token=request.getHeader("Authorization");
         Integer userId=JWTUtil.getUserIdFromToken(token);
         UserEntity user=validatorService.validateUserExistence(userId);
         if(!JWTUtil.validateToken(token,user.getUsername(),user.getPassword())){
-            filterChain.doFilter(request,response);
-            return;
+            throw new ServletException(" Invalid Token");
         }
         filterChain.doFilter(request,response);
     }

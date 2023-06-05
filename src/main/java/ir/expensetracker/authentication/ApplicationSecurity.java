@@ -20,9 +20,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 "/configuration/security",
                 "/swagger-ui.html",
                 "/webjars/**",
-                "/api/users",
-                "/api/users/forgetpassword",
-                "/api/users/login")
+                "/api/**")
                 .permitAll().anyRequest().authenticated();
 
         http.exceptionHandling().

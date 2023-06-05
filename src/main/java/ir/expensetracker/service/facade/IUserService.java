@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IUserService {
 
    public UserCreateResult createUser(UserCreateParam input) throws InvalidParameterException;
-   public UserChangePasswordResult changePassword(UserChangePasswordParam input);
+   public UserChangePasswordResult changePassword(UserChangePasswordParam input, String jwt);
    public UserForgetPasswordResult forgetPassword(UserForgetPasswordParam input);
    public UserLoginResult login(UserLoginParam input);
    public UserEntity getUser(String userName);

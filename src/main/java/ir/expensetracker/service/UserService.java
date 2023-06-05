@@ -48,15 +48,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserChangePasswordResult changePassword(UserChangePasswordParam input) {
-        UserEntity result=getUser(input.getUsername());
-        if(result==null){
-            throw new InvalidParameterException("Invalid Username");
+    public UserChangePasswordResult changePassword(UserChangePasswordParam input, String jwt) {
+        Optional<UserEntity> result=userRepository.findById(JWTUtil.getUserIdFromToken(jwt));
+        if(!result.isPresent()){
+            throw new InvalidParameterException("Invalid User");
         }
         if(input.getNewPassword()==null || input.getNewPassword().equals("") || !input.getNewPassword().equals(input.getNewPasswordConfirm())){
             throw new InvalidParameterException("Passwords are empty or do not match");
         }
-        result.setPassword(SecurityUtil.SHA256(input.getNewPassword()));
+        result.get().setPassword(SecurityUtil.SHA256(input.getNewPassword()));
+        userRepository.save(result.get());
         return new UserChangePasswordResult(true);
     }
 
@@ -83,10 +84,10 @@ public class UserService implements IUserService {
         if(user==null){
             throw new InvalidParameterException("Invalid Username");
         }
-        if(input.getPassword()==null || input.getPassword().equals("") || user.getPassword().equals(SecurityUtil.SHA256(input.getPassword()))){
+        if(input.getPassword()==null || input.getPassword().equals("") || !user.getPassword().equals(SecurityUtil.SHA256(input.getPassword()))){
             throw new InvalidParameterException("Invalid Password");
         }
-        String token= JWTUtil.generateToken(input.getUsername(),input.getPassword(),user.getId());
+        String token= JWTUtil.generateToken(input.getUsername(),user.getPassword(),user.getId());
         return new UserLoginResult(token);
     }
 
