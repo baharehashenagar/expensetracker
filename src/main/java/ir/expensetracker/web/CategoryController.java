@@ -17,10 +17,10 @@ public class CategoryController {
     ICategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Object> createCategory(@RequestBody CategoryCreateParam category) {
+    public ResponseEntity<Object> createCategory(@RequestBody CategoryCreateParam category, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(categoryService.createCategory(category));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(categoryService.createCategory(category, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -28,10 +28,10 @@ public class CategoryController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> getCategories() {
+    public ResponseEntity<Object> getCategories(@RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(categoryService.findAllCategories());
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(categoryService.findAllCategories(jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

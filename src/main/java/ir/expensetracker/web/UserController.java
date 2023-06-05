@@ -22,7 +22,7 @@ public class UserController {
     public ResponseEntity<Object> createUser(@RequestBody UserCreateParam user) {
         try {
             return ResponseEntity.ok(userService.createUser(user));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -30,10 +30,10 @@ public class UserController {
     }
 
     @PutMapping(value = "/changepassword")
-    public ResponseEntity<Object> changePassword(@RequestBody UserChangePasswordParam user,@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<Object> changePassword(@RequestBody UserChangePasswordParam user, @RequestHeader("Authorization") String jwt) {
         try {
             return ResponseEntity.ok(userService.changePassword(user, jwt));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -44,7 +44,7 @@ public class UserController {
     public ResponseEntity<Object> forgetPassword(@RequestBody UserForgetPasswordParam user) {
         try {
             return ResponseEntity.ok(userService.forgetPassword(user));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -55,7 +55,7 @@ public class UserController {
     public ResponseEntity<Object> login(@RequestBody UserLoginParam user) {
         try {
             return ResponseEntity.ok(userService.login(user));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface IReminderService {
 
-    public ReminderCreateResult createReminder(ReminderCreateParam param);
-    public ReminderDeleteResult deleteReminder(ReminderDeleteParam param);
-    public List<RemindersOfUserResult> findUserRemindersForSpecificDate(Integer userId, String date);
-    public List<RemindersOfUserResult> findUserReminders(Integer userId);
-    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date);
+    public ReminderCreateResult createReminder(ReminderCreateParam param, String jwt);
+
+    public ReminderDeleteResult deleteReminder(ReminderDeleteParam param, String jwt);
+
+    public List<RemindersOfUserResult> findUserRemindersForSpecificDate(String date, String jwt);
+
+    public List<RemindersOfUserResult> findUserReminders(String jwt);
+
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date, String jwt);
 }

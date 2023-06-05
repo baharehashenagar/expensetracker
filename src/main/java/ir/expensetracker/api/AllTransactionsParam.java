@@ -1,24 +1,24 @@
 package ir.expensetracker.api;
 
 public class AllTransactionsParam {
-    private Integer userId;
+    private Integer transactionId;
 
-    public AllTransactionsParam(Integer userId) {
-        this.userId = userId;
+    public AllTransactionsParam(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getTransactionId() {
+        return transactionId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setTransactionId(Integer transactionId) {
+        this.transactionId = transactionId;
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "userId=" + userId +
+        return "AllTransactionsParam{" +
+                "transactionId=" + transactionId +
                 '}';
     }
 }

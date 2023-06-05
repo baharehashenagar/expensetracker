@@ -1,20 +1,10 @@
 package ir.expensetracker.api;
 
 public class AllTransactionsInMonthParam {
-    private Integer userId;
     private String date;
 
-    public AllTransactionsInMonthParam(Integer userId, String date) {
-        this.userId = userId;
+    public AllTransactionsInMonthParam(String date) {
         this.date = date;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getDate() {
@@ -28,8 +18,7 @@ public class AllTransactionsInMonthParam {
     @Override
     public String toString() {
         return "{" +
-                "userId=" + userId +
-                ", date='" + date + '\'' +
+                "date='" + date + '\'' +
                 '}';
     }
 }

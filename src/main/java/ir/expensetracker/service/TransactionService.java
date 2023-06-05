@@ -1,6 +1,7 @@
 package ir.expensetracker.service;
 
 import ir.expensetracker.api.*;
+import ir.expensetracker.authentication.JWTUtil;
 import ir.expensetracker.entity.CategoryEntity;
 import ir.expensetracker.entity.TransactionsEntity;
 import ir.expensetracker.entity.UserEntity;
@@ -33,8 +34,8 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public TransactionCreateResult createTransaction(TransactionCreateParam param) {
-        UserEntity user = validatorService.validateUserExistence(param.getUserId());
+    public TransactionCreateResult createTransaction(TransactionCreateParam param, String jwt) {
+        UserEntity user = validatorService.validateUserExistence(JWTUtil.getUserIdFromToken(jwt));
         CategoryEntity category = validatorService.validateCategoryExistence(param.getCategory());
 
         if (param.getAmount() == null || param.getAmount() == 0) {
@@ -49,7 +50,7 @@ public class TransactionService implements ITransactionService {
         transaction.setDescription(param.getDescription());
         transaction.setTransactionDate(date);
         transaction = transactionRepository.save(transaction);
-        String alert = getAlert(user.getId(), date, category.getName());
+        String alert = getAlert(user.getId(), date, category.getName(), jwt);
         return new TransactionCreateResult(transaction.getId(), alert);
     }
 
@@ -65,18 +66,20 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<AllTransactionsResult> findAllTransactionsOfUser(AllTransactionsParam param) {
-        validatorService.validateUserExistence(param.getUserId());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUser(param.getUserId());
+    public List<AllTransactionsResult> findAllTransactionsOfUser(AllTransactionsParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUser(userId);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<AllTransactionsWithSumAmountInCategoryResult> findTransactionsOfUserInMonth(AllTransactionsInMonthParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+    public List<AllTransactionsWithSumAmountInCategoryResult> findTransactionsOfUserInMonth(AllTransactionsInMonthParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
         Date date = DateUtil.getDate(param.getDate());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(param.getUserId(), date);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(userId, date);
 
         Map<String, Map<String, Integer>> sumAmountByCategoryResult = transactionsEntityList.stream()
                 .map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount()))
@@ -92,45 +95,49 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<AllTransactionsResult> findTransactionsOfUserInMonthDetails(AllTransactionsInMonthParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+    public List<AllTransactionsResult> findTransactionsOfUserInMonthDetails(AllTransactionsInMonthParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
         Date date = DateUtil.getDate(param.getDate());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(param.getUserId(), date);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(userId, date);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<AllTransactionsResult> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+    public List<AllTransactionsResult> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
         CategoryEntity category = validatorService.validateCategoryExistence(param.getCategory());
         Date date = DateUtil.getDate(param.getDate());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserForSpecificCategoryInMonth(param.getUserId(), category.getId(), date);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserForSpecificCategoryInMonth(userId, category.getId(), date);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<AllTransactionsResult> findTransactionsOfUserInMonthGreaterThanSpecificAmount(AllTransactionsInMonthGreaterThanSpecificAmountParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+    public List<AllTransactionsResult> findTransactionsOfUserInMonthGreaterThanSpecificAmount(AllTransactionsInMonthGreaterThanSpecificAmountParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
         Date date = DateUtil.getDate(param.getDate());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserGreaterThanSpecificAmountInMonth(param.getUserId(), param.getAmount(), date);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserGreaterThanSpecificAmountInMonth(userId, param.getAmount(), date);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public SaveTransactionsInExcelResult saveTransactionsOfUserInMonthAtExcel(AllTransactionsInMonthParam param) {
-        UserEntity user = validatorService.validateUserExistence(param.getUserId());
+    public SaveTransactionsInExcelResult saveTransactionsOfUserInMonthAtExcel(AllTransactionsInMonthParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        UserEntity user = validatorService.validateUserExistence(userId);
         Date date = DateUtil.getDate(param.getDate());
-        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(param.getUserId(), date);
+        List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(userId, date);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         ExcelUtil.saveInExcelFile(("transactions-" + user.getUsername() + ".xlsx"), result);
         return null;
     }
 
-    private String getAlert(Integer userId, Date date, String category) {
-        List<AllTransactionsWithSumAmountInCategoryResult> result = findTransactionsOfUserInMonth(new AllTransactionsInMonthParam(userId, DateUtil.fromDate(date)));
+    private String getAlert(Integer userId, Date date, String category, String jwt) {
+        List<AllTransactionsWithSumAmountInCategoryResult> result = findTransactionsOfUserInMonth(new AllTransactionsInMonthParam(DateUtil.fromDate(date)), jwt);
         StringBuilder alert = new StringBuilder();
         for (int i = 0; i < result.size(); i++) {
             AllTransactionsWithSumAmountInCategoryResult transaction = result.get(i);

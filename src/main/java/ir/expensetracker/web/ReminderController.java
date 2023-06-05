@@ -19,10 +19,10 @@ public class ReminderController {
     IReminderService reminderService;
 
     @PostMapping
-    public ResponseEntity<Object> createReminder(@RequestBody ReminderCreateParam user) {
+    public ResponseEntity<Object> createReminder(@RequestBody ReminderCreateParam user, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(reminderService.createReminder(user));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(reminderService.createReminder(user, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -30,10 +30,10 @@ public class ReminderController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteReminder(@PathVariable("id") Integer reminderId) {
+    public ResponseEntity<Object> deleteReminder(@PathVariable("id") Integer reminderId, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(reminderService.deleteReminder(new ReminderDeleteParam(reminderId)));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(reminderService.deleteReminder(new ReminderDeleteParam(reminderId), jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -41,21 +41,21 @@ public class ReminderController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findUserRemindersForSpecificDate(@RequestParam Integer userId,@RequestParam String date) {
+    public ResponseEntity<Object> findUserRemindersForSpecificDate(@RequestParam String date, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(reminderService.findUserRemindersForSpecificDate(userId, date));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(reminderService.findUserRemindersForSpecificDate(date, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findUserReminders(@PathVariable("id") Integer userId) {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findUserReminders(@RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(reminderService.findUserReminders(userId));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(reminderService.findUserReminders(jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

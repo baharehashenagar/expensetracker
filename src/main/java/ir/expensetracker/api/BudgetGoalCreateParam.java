@@ -4,7 +4,6 @@ public class BudgetGoalCreateParam {
     private String category;
     private Integer maxAmount;
     private String date;
-    private Integer userId;
 
     public String getCategory() {
         return category;
@@ -30,21 +29,12 @@ public class BudgetGoalCreateParam {
         this.date = date;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return "{" +
                 "category='" + category + '\'' +
                 ", maxAmount=" + maxAmount +
                 ", date='" + date + '\'' +
-                ", userId=" + userId +
                 '}';
     }
 }

@@ -6,7 +6,9 @@ import ir.expensetracker.entity.CategoryEntity;
 import java.util.List;
 
 public interface ICategoryService {
-    public CategoryCreateResult createCategory(CategoryCreateParam param);
-    public CategoryEntity getCategory(String categoryName);
-    public List<CategoryEntity> findAllCategories();
+    public CategoryCreateResult createCategory(CategoryCreateParam param, String jwt);
+
+    public CategoryEntity getCategory(String categoryName, String jwt);
+
+    public List<CategoryEntity> findAllCategories(String jwt);
 }

@@ -1,6 +1,7 @@
 package ir.expensetracker.service;
 
 import ir.expensetracker.api.*;
+import ir.expensetracker.authentication.JWTUtil;
 import ir.expensetracker.entity.RemindersEntity;
 import ir.expensetracker.entity.UserEntity;
 import ir.expensetracker.exception.InvalidParameterException;
@@ -22,65 +23,68 @@ public class ReminderService implements IReminderService {
     private IValidatorService validatorService;
 
     @Autowired
-    public ReminderService(IRemindersRepository remindersRepository,IValidatorService validatorService){
-        this.remindersRepository=remindersRepository;
-        this.validatorService=validatorService;
+    public ReminderService(IRemindersRepository remindersRepository, IValidatorService validatorService) {
+        this.remindersRepository = remindersRepository;
+        this.validatorService = validatorService;
     }
 
     @Override
-    public ReminderCreateResult createReminder(ReminderCreateParam param) {
-        UserEntity user=validatorService.validateUserExistence(param.getUserId());
-        if(param.getDescription()==null || param.getDescription().equals("")){
+    public ReminderCreateResult createReminder(ReminderCreateParam param, String jwt) {
+        UserEntity user = validatorService.validateUserExistence(JWTUtil.getUserIdFromToken(jwt));
+        if (param.getDescription() == null || param.getDescription().equals("")) {
             throw new InvalidParameterException("Description is empty");
         }
-        if(param.getDueDate()==null || param.getDueDate().equals("")|| DateUtil.toDate(param.getDueDate())==null){
+        if (param.getDueDate() == null || param.getDueDate().equals("") || DateUtil.toDate(param.getDueDate()) == null) {
             throw new InvalidParameterException("DueDate is empty or it has incorrect format");
         }
-        RemindersEntity reminder=new RemindersEntity();
+        RemindersEntity reminder = new RemindersEntity();
         reminder.setUser(user);
         reminder.setDescription(param.getDescription());
         reminder.setDueDate(DateUtil.toDate(param.getDueDate()));
-        reminder=remindersRepository.save(reminder);
+        reminder = remindersRepository.save(reminder);
         return new ReminderCreateResult(reminder.getId());
     }
 
     @Override
-    public ReminderDeleteResult deleteReminder(ReminderDeleteParam param) {
-        Optional<RemindersEntity> reminder=remindersRepository.findById(param.getReminderId());
-        if(reminder.isPresent()){
+    public ReminderDeleteResult deleteReminder(ReminderDeleteParam param, String jwt) {
+        Optional<RemindersEntity> reminder = remindersRepository.findById(param.getReminderId());
+        if (reminder.isPresent()) {
             remindersRepository.deleteById(param.getReminderId());
             return new ReminderDeleteResult(true);
-        }else{
+        } else {
             throw new RecordNotFoundException("Invalid ReminderId");
         }
     }
 
     @Override
-    public List<RemindersOfUserResult> findUserRemindersForSpecificDate(Integer userId, String date) {
+    public List<RemindersOfUserResult> findUserRemindersForSpecificDate(String date, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
-        if(date==null || date.equals("") || DateUtil.toDate(date)==null){
+        if (date == null || date.equals("") || DateUtil.toDate(date) == null) {
             throw new InvalidParameterException("Date is empty");
         }
-        List<RemindersEntity> remindersList=remindersRepository.findUserRemindersForSpecificDate(userId, DateUtil.toDate(date));
-        List<RemindersOfUserResult> result=remindersList.stream().map(r->new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
+        List<RemindersEntity> remindersList = remindersRepository.findUserRemindersForSpecificDate(userId, DateUtil.toDate(date));
+        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<RemindersOfUserResult> findUserReminders(Integer userId) {
+    public List<RemindersOfUserResult> findUserReminders(String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
-        List<RemindersEntity> remindersList=remindersRepository.findUserReminders(userId);
-        List<RemindersOfUserResult> result=remindersList.stream().map(r->new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
+        List<RemindersEntity> remindersList = remindersRepository.findUserReminders(userId);
+        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
         return result;
     }
 
     @Override
-    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date) {
-        if(date==null || date.equals("") || DateUtil.toDate(date)==null){
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date, String jwt) {
+        if (date == null || date.equals("") || DateUtil.toDate(date) == null) {
             throw new InvalidParameterException("Date is empty");
         }
-        List<RemindersEntity> remindersList=remindersRepository.findAllRemindersForSpecificDate(DateUtil.toDate(date));
-        List<AllRemindersResult> result=remindersList.stream().map(r->new AllRemindersResult(r.getDescription(),
-                r.getUser().getUsername(),r.getUser().getMobileNumber())).collect(Collectors.toList());
-        return result;    }
+        List<RemindersEntity> remindersList = remindersRepository.findAllRemindersForSpecificDate(DateUtil.toDate(date));
+        List<AllRemindersResult> result = remindersList.stream().map(r -> new AllRemindersResult(r.getDescription(),
+                r.getUser().getUsername(), r.getUser().getMobileNumber())).collect(Collectors.toList());
+        return result;
+    }
 }

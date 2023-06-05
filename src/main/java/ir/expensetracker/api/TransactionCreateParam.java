@@ -5,7 +5,6 @@ public class TransactionCreateParam {
     private String description;
     private String date;
     private Integer amount;
-    private Integer userId;
 
     public String getCategory() {
         return category;
@@ -39,14 +38,6 @@ public class TransactionCreateParam {
         this.amount = amount;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return "{" +
@@ -54,7 +45,6 @@ public class TransactionCreateParam {
                 ", description='" + description + '\'' +
                 ", date='" + date + '\'' +
                 ", amount=" + amount +
-                ", userId=" + userId +
                 '}';
     }
 }

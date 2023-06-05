@@ -1,17 +1,8 @@
 package ir.expensetracker.api;
 
 public class AllTransactionsInMonthGreaterThanSpecificAmountParam {
-    private Integer userId;
     private String date;
     private Integer amount;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public String getDate() {
         return date;
@@ -32,8 +23,7 @@ public class AllTransactionsInMonthGreaterThanSpecificAmountParam {
     @Override
     public String toString() {
         return "{" +
-                "userId=" + userId +
-                ", date='" + date + '\'' +
+                " date='" + date + '\'' +
                 ", amount=" + amount +
                 '}';
     }

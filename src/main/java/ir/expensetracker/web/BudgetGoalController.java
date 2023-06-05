@@ -20,10 +20,10 @@ public class BudgetGoalController {
     IBudgetGoalService budgetGoalService;
 
     @PostMapping
-    public ResponseEntity<Object> createBudgetGoal(@RequestBody BudgetGoalCreateParam budgetGoal) {
+    public ResponseEntity<Object> createBudgetGoal(@RequestBody BudgetGoalCreateParam budgetGoal, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(budgetGoalService.createBudgetGoal(budgetGoal));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(budgetGoalService.createBudgetGoal(budgetGoal, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -31,10 +31,10 @@ public class BudgetGoalController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteBudgetGoal(@PathVariable("id") Integer budgetGoalId) {
+    public ResponseEntity<Object> deleteBudgetGoal(@PathVariable("id") Integer budgetGoalId, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(budgetGoalService.deleteBudgetGoal(new BudgetGoalDeleteParam(budgetGoalId)));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(budgetGoalService.deleteBudgetGoal(new BudgetGoalDeleteParam(budgetGoalId), jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -42,10 +42,10 @@ public class BudgetGoalController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findUserBudgetGoals(BudgetGoalOfUserParam budgetGoal) {
+    public ResponseEntity<Object> findUserBudgetGoals(BudgetGoalOfUserParam budgetGoal, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(budgetGoalService.findUserBudgetGoals(budgetGoal));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(budgetGoalService.findUserBudgetGoals(budgetGoal, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

@@ -1,6 +1,7 @@
 package ir.expensetracker.service;
 
 import ir.expensetracker.api.*;
+import ir.expensetracker.authentication.JWTUtil;
 import ir.expensetracker.entity.BudgetGoalEntity;
 import ir.expensetracker.entity.CategoryEntity;
 import ir.expensetracker.entity.UserEntity;
@@ -31,11 +32,12 @@ public class BudgetGoalService implements IBudgetGoalService {
     }
 
     @Override
-    public BudgetGoalCreateResult createBudgetGoal(BudgetGoalCreateParam param) {
-        UserEntity user = validatorService.validateUserExistence(param.getUserId());
+    public BudgetGoalCreateResult createBudgetGoal(BudgetGoalCreateParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        UserEntity user = validatorService.validateUserExistence(userId);
         CategoryEntity category = validatorService.validateCategoryExistence(param.getCategory());
-        Date date=DateUtil.getDate(param.getDate());
-        List<BudgetGoalEntity> result = budgetGoalRepository.findUserBudgetGoalForSpecificCategoryInMonth(param.getUserId(), category.getId(), date);
+        Date date = DateUtil.getDate(param.getDate());
+        List<BudgetGoalEntity> result = budgetGoalRepository.findUserBudgetGoalForSpecificCategoryInMonth(userId, category.getId(), date);
         if (result != null && result.size() > 0) {
             throw new InvalidParameterException("Duplicate BudgetGoal");
         }
@@ -49,7 +51,7 @@ public class BudgetGoalService implements IBudgetGoalService {
     }
 
     @Override
-    public BudgetGoalDeleteResult deleteBudgetGoal(BudgetGoalDeleteParam param) {
+    public BudgetGoalDeleteResult deleteBudgetGoal(BudgetGoalDeleteParam param, String jwt) {
         Optional<BudgetGoalEntity> budgetGoal = budgetGoalRepository.findById(param.getBudgetGoalId());
         if (budgetGoal.isPresent()) {
             budgetGoalRepository.deleteById(param.getBudgetGoalId());
@@ -60,8 +62,9 @@ public class BudgetGoalService implements IBudgetGoalService {
     }
 
     @Override
-    public List<BudgetGoalOfUserResult> findUserBudgetGoals(BudgetGoalOfUserParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+    public List<BudgetGoalOfUserResult> findUserBudgetGoals(BudgetGoalOfUserParam param, String jwt) {
+        Integer userId = JWTUtil.getUserIdFromToken(jwt);
+        validatorService.validateUserExistence(userId);
         CategoryEntity category = null;
         if (param.getCategory() != null && !param.getCategory().equals("")) {
             category = validatorService.validateCategoryExistence(param.getCategory());
@@ -72,13 +75,13 @@ public class BudgetGoalService implements IBudgetGoalService {
         }
         List<BudgetGoalEntity> budgetGoalList = null;
         if (category == null && date == null) {
-            budgetGoalList = budgetGoalRepository.findUserBudgetGoal(param.getUserId());
+            budgetGoalList = budgetGoalRepository.findUserBudgetGoal(userId);
         } else if (category != null && date == null) {
-            budgetGoalList = budgetGoalRepository.findUserBudgetGoalForSpecificCategory(param.getUserId(), category.getId());
+            budgetGoalList = budgetGoalRepository.findUserBudgetGoalForSpecificCategory(userId, category.getId());
         } else if (category == null && date != null) {
-            budgetGoalList = budgetGoalRepository.findUserBudgetGoalInMonth(param.getUserId(), date);
+            budgetGoalList = budgetGoalRepository.findUserBudgetGoalInMonth(userId, date);
         } else {
-            budgetGoalList = budgetGoalRepository.findUserBudgetGoalForSpecificCategoryInMonth(param.getUserId(), category.getId(), date);
+            budgetGoalList = budgetGoalRepository.findUserBudgetGoalForSpecificCategoryInMonth(userId, category.getId(), date);
         }
         List<BudgetGoalOfUserResult> result = budgetGoalList.stream().map(bg -> new BudgetGoalOfUserResult(bg.getCategory().getName(),
                 bg.getMaxAmount(), DateUtil.fromDate(bg.getBudgetDate()))).collect(Collectors.toList());

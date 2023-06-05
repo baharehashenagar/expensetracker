@@ -3,7 +3,6 @@ package ir.expensetracker.api;
 public class ReminderCreateParam {
     private String description;
     private String dueDate;
-    private Integer userId;
 
     public String getDescription() {
         return description;
@@ -21,20 +20,11 @@ public class ReminderCreateParam {
         this.dueDate = dueDate;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
     @Override
     public String toString() {
         return "{" +
                 "description='" + description + '\'' +
                 ", dueDate='" + dueDate + '\'' +
-                ", userId=" + userId +
                 '}';
     }
 }

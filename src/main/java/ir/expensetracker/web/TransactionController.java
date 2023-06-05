@@ -17,10 +17,10 @@ public class TransactionController {
     ITransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<Object> createTransaction(@RequestBody TransactionCreateParam transaction) {
+    public ResponseEntity<Object> createTransaction(@RequestBody TransactionCreateParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.createTransaction(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.createTransaction(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -28,10 +28,10 @@ public class TransactionController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteTransaction(@PathVariable("id") Integer transactionId) {
+    public ResponseEntity<Object> deleteTransaction(@PathVariable("id") Integer transactionId, @RequestHeader("Authorization") String jwt) {
         try {
             return ResponseEntity.ok(transactionService.deleteTransaction(new TransactionDeleteParam(transactionId)));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -39,65 +39,65 @@ public class TransactionController {
     }
 
     @GetMapping(value = "/findAllTransactionsOfUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findAllTransactionsOfUser(@PathVariable("id") Integer transactionId) {
+    public ResponseEntity<Object> findAllTransactionsOfUser(@PathVariable("id") Integer transactionId, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findAllTransactionsOfUser(new AllTransactionsParam(transactionId)));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.findAllTransactionsOfUser(new AllTransactionsParam(transactionId), jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping(value ="/findTransactionsOfUserInMonth" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findTransactionsOfUserInMonth(AllTransactionsInMonthParam transaction) {
+    @GetMapping(value = "/findTransactionsOfUserInMonth", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findTransactionsOfUserInMonth(AllTransactionsInMonthParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonth(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonth(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping(value ="/findTransactionsOfUserInMonthDetails" ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findTransactionsOfUserInMonthDetails(AllTransactionsInMonthParam transaction) {
+    @GetMapping(value = "/findTransactionsOfUserInMonthDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findTransactionsOfUserInMonthDetails(AllTransactionsInMonthParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthDetails(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthDetails(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping(value = "/findTransactionsOfUserInMonthByCategory",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam transaction) {
+    @GetMapping(value = "/findTransactionsOfUserInMonthByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthByCategory(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthByCategory(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @GetMapping(value = "/findTransactionsOfUserInMonthGreaterThanSpecificAmount",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findTransactionsOfUserInMonthGreaterThanSpecificAmount(AllTransactionsInMonthGreaterThanSpecificAmountParam transaction) {
+    @GetMapping(value = "/findTransactionsOfUserInMonthGreaterThanSpecificAmount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findTransactionsOfUserInMonthGreaterThanSpecificAmount(AllTransactionsInMonthGreaterThanSpecificAmountParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthGreaterThanSpecificAmount(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthGreaterThanSpecificAmount(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PostMapping (value = "/saveTransactionsOfUserInMonthAtExcel")
-    public ResponseEntity<Object> saveTransactionsOfUserInMonthAtExcel(@RequestBody AllTransactionsInMonthParam transaction) {
+    @PostMapping(value = "/saveTransactionsOfUserInMonthAtExcel")
+    public ResponseEntity<Object> saveTransactionsOfUserInMonthAtExcel(@RequestBody AllTransactionsInMonthParam transaction, @RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.saveTransactionsOfUserInMonthAtExcel(transaction));
-        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.ok(transactionService.saveTransactionsOfUserInMonthAtExcel(transaction, jwt));
+        } catch (InvalidParameterException | RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
