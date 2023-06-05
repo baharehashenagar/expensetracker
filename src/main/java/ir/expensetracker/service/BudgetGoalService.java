@@ -34,14 +34,15 @@ public class BudgetGoalService implements IBudgetGoalService {
     public BudgetGoalCreateResult createBudgetGoal(BudgetGoalCreateParam param) {
         UserEntity user = validatorService.validateUserExistence(param.getUserId());
         CategoryEntity category = validatorService.validateCategoryExistence(param.getCategory());
-        List<BudgetGoalEntity> result = budgetGoalRepository.findUserBudgetGoalForSpecificCategory(param.getUserId(), category.getId());
+        Date date=DateUtil.getDate(param.getDate());
+        List<BudgetGoalEntity> result = budgetGoalRepository.findUserBudgetGoalForSpecificCategoryInMonth(param.getUserId(), category.getId(), date);
         if (result != null && result.size() > 0) {
             throw new InvalidParameterException("Duplicate BudgetGoal");
         }
         BudgetGoalEntity budgetGoal = new BudgetGoalEntity();
         budgetGoal.setUser(user);
         budgetGoal.setCategory(category);
-        budgetGoal.setBudgetDate(DateUtil.getDate(param.getDate()));
+        budgetGoal.setBudgetDate(date);
         budgetGoal.setMaxAmount(param.getMaxAmount() != null ? param.getMaxAmount() : 0);
         budgetGoal = budgetGoalRepository.save(budgetGoal);
         return new BudgetGoalCreateResult(budgetGoal.getId());

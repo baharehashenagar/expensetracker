@@ -5,6 +5,12 @@ public class BudgetGoalOfUserParam {
     private Integer userId;
     private String category;
 
+    public BudgetGoalOfUserParam(String date, Integer userId, String category) {
+        this.date = date;
+        this.userId = userId;
+        this.category = category;
+    }
+
     public String getDate() {
         return date;
     }

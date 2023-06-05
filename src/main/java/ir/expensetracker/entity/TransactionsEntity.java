@@ -79,7 +79,7 @@ public class TransactionsEntity {
 
     @Override
     public String toString() {
-        return "TransactionsEntity{" +
+        return "{" +
                 "id=" + id +
                 ", category=" + category +
                 ", user=" + user +

@@ -2,6 +2,7 @@ package ir.expensetracker.web;
 
 import ir.expensetracker.api.CategoryCreateParam;
 import ir.expensetracker.exception.InvalidParameterException;
+import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class CategoryController {
     public ResponseEntity<Object> createCategory(@RequestBody CategoryCreateParam category) {
         try {
             return ResponseEntity.ok(categoryService.createCategory(category));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -30,6 +31,8 @@ public class CategoryController {
     public ResponseEntity<Object> getCategories() {
         try {
             return ResponseEntity.ok(categoryService.findAllCategories());
+        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

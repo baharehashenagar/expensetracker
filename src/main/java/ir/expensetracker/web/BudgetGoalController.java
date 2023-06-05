@@ -4,6 +4,7 @@ import ir.expensetracker.api.BudgetGoalCreateParam;
 import ir.expensetracker.api.BudgetGoalDeleteParam;
 import ir.expensetracker.api.BudgetGoalOfUserParam;
 import ir.expensetracker.exception.InvalidParameterException;
+import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.IBudgetGoalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class BudgetGoalController {
     public ResponseEntity<Object> createBudgetGoal(@RequestBody BudgetGoalCreateParam budgetGoal) {
         try {
             return ResponseEntity.ok(budgetGoalService.createBudgetGoal(budgetGoal));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -33,7 +34,7 @@ public class BudgetGoalController {
     public ResponseEntity<Object> deleteBudgetGoal(@PathVariable("id") Integer budgetGoalId) {
         try {
             return ResponseEntity.ok(budgetGoalService.deleteBudgetGoal(new BudgetGoalDeleteParam(budgetGoalId)));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -44,7 +45,7 @@ public class BudgetGoalController {
     public ResponseEntity<Object> findUserBudgetGoals(BudgetGoalOfUserParam budgetGoal) {
         try {
             return ResponseEntity.ok(budgetGoalService.findUserBudgetGoals(budgetGoal));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

@@ -49,7 +49,7 @@ public class HTTPCaller {
 			logger.info(" result - {}" , result);
 			return output;
 		}catch(Throwable e){
-			e.printStackTrace();
+			logger.error(e,e);
 		}
 		return null;
 	}

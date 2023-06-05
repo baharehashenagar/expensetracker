@@ -2,6 +2,7 @@ package ir.expensetracker.web;
 
 import ir.expensetracker.api.*;
 import ir.expensetracker.exception.InvalidParameterException;
+import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.ITransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class TransactionController {
     public ResponseEntity<Object> createTransaction(@RequestBody TransactionCreateParam transaction) {
         try {
             return ResponseEntity.ok(transactionService.createTransaction(transaction));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -30,7 +31,7 @@ public class TransactionController {
     public ResponseEntity<Object> deleteTransaction(@PathVariable("id") Integer transactionId) {
         try {
             return ResponseEntity.ok(transactionService.deleteTransaction(new TransactionDeleteParam(transactionId)));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -41,7 +42,7 @@ public class TransactionController {
     public ResponseEntity<Object> findAllTransactionsOfUser(@PathVariable("id") Integer transactionId) {
         try {
             return ResponseEntity.ok(transactionService.findAllTransactionsOfUser(new AllTransactionsParam(transactionId)));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -52,7 +53,18 @@ public class TransactionController {
     public ResponseEntity<Object> findTransactionsOfUserInMonth(AllTransactionsInMonthParam transaction) {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonth(transaction));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping(value ="/findTransactionsOfUserInMonthDetails" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findTransactionsOfUserInMonthDetails(AllTransactionsInMonthParam transaction) {
+        try {
+            return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthDetails(transaction));
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -63,7 +75,7 @@ public class TransactionController {
     public ResponseEntity<Object> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam transaction) {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthByCategory(transaction));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -74,7 +86,7 @@ public class TransactionController {
     public ResponseEntity<Object> findTransactionsOfUserInMonthGreaterThanSpecificAmount(AllTransactionsInMonthGreaterThanSpecificAmountParam transaction) {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthGreaterThanSpecificAmount(transaction));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -85,7 +97,7 @@ public class TransactionController {
     public ResponseEntity<Object> saveTransactionsOfUserInMonthAtExcel(@RequestBody AllTransactionsInMonthParam transaction) {
         try {
             return ResponseEntity.ok(transactionService.saveTransactionsOfUserInMonthAtExcel(transaction));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

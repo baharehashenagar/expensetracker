@@ -59,6 +59,6 @@ public class SMSCenter {
 	}
 
 	public void sendForgetPasswordSMS(String cellPhone, String password){
-		sendSMS(cellPhone, forgetPasswordMessage+System.lineSeparator()+password);
+		sendSMS(cellPhone, forgetPasswordMessage+" "+password);
 	}
 }

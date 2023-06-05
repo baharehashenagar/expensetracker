@@ -4,6 +4,11 @@ public class AllTransactionsInMonthParam {
     private Integer userId;
     private String date;
 
+    public AllTransactionsInMonthParam(Integer userId, String date) {
+        this.userId = userId;
+        this.date = date;
+    }
+
     public Integer getUserId() {
         return userId;
     }

@@ -56,7 +56,7 @@ public class RemindersEntity {
 
     @Override
     public String toString() {
-        return "RemindersEntity{" +
+        return "{" +
                 "id=" + id +
                 ", user=" + user +
                 ", description='" + description + '\'' +

@@ -68,7 +68,7 @@ public class BudgetGoalEntity {
 
     @Override
     public String toString() {
-        return "BudgetGoalEntity{" +
+        return "{" +
                 "id=" + id +
                 ", category=" + category +
                 ", user=" + user +

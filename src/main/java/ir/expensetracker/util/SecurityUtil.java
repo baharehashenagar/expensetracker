@@ -1,6 +1,5 @@
 package ir.expensetracker.util;
 
-import ir.expensetracker.connector.SMSCenter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

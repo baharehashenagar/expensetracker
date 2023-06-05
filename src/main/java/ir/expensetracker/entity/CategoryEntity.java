@@ -32,7 +32,7 @@ public class CategoryEntity {
 
     @Override
     public String toString() {
-        return "CategoryEntity{" +
+        return "{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

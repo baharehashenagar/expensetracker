@@ -4,6 +4,7 @@ package ir.expensetracker.web;
 import ir.expensetracker.api.ReminderCreateParam;
 import ir.expensetracker.api.ReminderDeleteParam;
 import ir.expensetracker.exception.InvalidParameterException;
+import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.IReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class ReminderController {
     public ResponseEntity<Object> createReminder(@RequestBody ReminderCreateParam user) {
         try {
             return ResponseEntity.ok(reminderService.createReminder(user));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -32,7 +33,7 @@ public class ReminderController {
     public ResponseEntity<Object> deleteReminder(@PathVariable("id") Integer reminderId) {
         try {
             return ResponseEntity.ok(reminderService.deleteReminder(new ReminderDeleteParam(reminderId)));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -43,7 +44,7 @@ public class ReminderController {
     public ResponseEntity<Object> findUserRemindersForSpecificDate(@RequestParam Integer userId,@RequestParam String date) {
         try {
             return ResponseEntity.ok(reminderService.findUserRemindersForSpecificDate(userId, date));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -54,7 +55,7 @@ public class ReminderController {
     public ResponseEntity<Object> findUserReminders(@PathVariable("id") Integer userId) {
         try {
             return ResponseEntity.ok(reminderService.findUserReminders(userId));
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterException| RecordNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
