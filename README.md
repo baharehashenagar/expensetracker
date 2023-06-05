@@ -34,6 +34,7 @@ Future updates to ExpenseTracker include:
 - Implementation of monthly charts and visualizations to provide an intuitive view of your spending habits.
 - Addition of a comparison feature allowing users to compare their spending with others in a specific category.
 - Integration of a monetization model through the recommendation of cost-saving shops and stores to users (ads).
+- Dockerizing the application to automate development, testing and deployment processes to ensure consistency for development and production environment.  
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
