@@ -1,8 +1,11 @@
 package ir.expensetracker.api;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class TransactionCreateParam {
     private String category;
     private String description;
+    @ApiModelProperty(example = "yyyy-MM-dd")
     private String date;
     private Integer amount;
 

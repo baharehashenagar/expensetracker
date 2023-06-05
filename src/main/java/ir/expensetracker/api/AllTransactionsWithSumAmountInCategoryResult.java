@@ -3,12 +3,12 @@ package ir.expensetracker.api;
 public class AllTransactionsWithSumAmountInCategoryResult {
     private String category;
     private String date;
-    private Integer amount;
+    private Integer totalAmount;
 
-    public AllTransactionsWithSumAmountInCategoryResult(String category, String date, Integer amount) {
+    public AllTransactionsWithSumAmountInCategoryResult(String category, String date, Integer totalAmount) {
         this.category = category;
         this.date = date;
-        this.amount = amount;
+        this.totalAmount = totalAmount;
     }
 
     public String getCategory() {
@@ -27,12 +27,12 @@ public class AllTransactionsWithSumAmountInCategoryResult {
         this.date = date;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class AllTransactionsWithSumAmountInCategoryResult {
         return "{" +
                 "category='" + category + '\'' +
                 ", date='" + date + '\'' +
-                ", amount=" + amount +
+                ", totalAmount=" + totalAmount +
                 '}';
     }
 }

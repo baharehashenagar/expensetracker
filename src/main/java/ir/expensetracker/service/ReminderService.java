@@ -78,7 +78,7 @@ public class ReminderService implements IReminderService {
     }
 
     @Override
-    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date, String jwt) {
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date) {
         if (date == null || date.equals("") || DateUtil.toDate(date) == null) {
             throw new InvalidParameterException("Date is empty");
         }

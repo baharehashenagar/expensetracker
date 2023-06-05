@@ -50,7 +50,7 @@ public class TransactionService implements ITransactionService {
         transaction.setDescription(param.getDescription());
         transaction.setTransactionDate(date);
         transaction = transactionRepository.save(transaction);
-        String alert = getAlert(user.getId(), date, category.getName(), jwt);
+        String alert = getAlert(date, category.getName(), jwt);
         return new TransactionCreateResult(transaction.getId(), alert);
     }
 
@@ -66,7 +66,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<AllTransactionsResult> findAllTransactionsOfUser(AllTransactionsParam param, String jwt) {
+    public List<AllTransactionsResult> findAllTransactionsOfUser(String jwt) {
         Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
         List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUser(userId);
@@ -81,7 +81,7 @@ public class TransactionService implements ITransactionService {
         Date date = DateUtil.getDate(param.getDate());
         List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(userId, date);
 
-        Map<String, Map<String, Integer>> sumAmountByCategoryResult = transactionsEntityList.stream()
+       Map<String, Map<String, Integer>> sumAmountByCategoryResult = transactionsEntityList.stream()
                 .map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount()))
                 .collect(Collectors.groupingBy(AllTransactionsResult::getCategory,
                         Collectors.groupingBy(AllTransactionsResult::getDate,
@@ -105,7 +105,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public List<AllTransactionsResult> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam param, String jwt) {
+    public List<AllTransactionsResult> findTransactionsOfUserInMonthByCategory(AllTransactionsInMonthByCategoryParam param, String jwt){
         Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
         CategoryEntity category = validatorService.validateCategoryExistence(param.getCategory());
@@ -133,23 +133,25 @@ public class TransactionService implements ITransactionService {
         List<TransactionsEntity> transactionsEntityList = transactionRepository.findAllTransactionsOfUserInMonth(userId, date);
         List<AllTransactionsResult> result = transactionsEntityList.stream().map(t -> new AllTransactionsResult(t.getCategory().getName(), t.getDescription(), DateUtil.fromDate(t.getTransactionDate()), t.getAmount())).collect(Collectors.toList());
         ExcelUtil.saveInExcelFile(("transactions-" + user.getUsername() + ".xlsx"), result);
-        return null;
+        return new SaveTransactionsInExcelResult(true);
     }
 
-    private String getAlert(Integer userId, Date date, String category, String jwt) {
-        List<AllTransactionsWithSumAmountInCategoryResult> result = findTransactionsOfUserInMonth(new AllTransactionsInMonthParam(DateUtil.fromDate(date)), jwt);
+    private String getAlert(Date date, String category, String jwt) {
+        AllTransactionsInMonthParam input=new AllTransactionsInMonthParam();
+        input.setDate(DateUtil.fromDate(date));
+        List<AllTransactionsWithSumAmountInCategoryResult> result = findTransactionsOfUserInMonth(input, jwt);
         StringBuilder alert = new StringBuilder();
         for (int i = 0; i < result.size(); i++) {
             AllTransactionsWithSumAmountInCategoryResult transaction = result.get(i);
             if (transaction.getCategory().equals(category)) {
-                List<BudgetGoalOfUserResult> budgetGoal = budgetGoalService.findUserBudgetGoals(new BudgetGoalOfUserParam(transaction.getDate(), userId, transaction.getCategory()));
-                if (budgetGoal != null && budgetGoal.size() > 0 && budgetGoal.get(0).getMaxAmount() < transaction.getAmount()) {
+                List<BudgetGoalOfUserResult> budgetGoal = budgetGoalService.findUserBudgetGoals(new BudgetGoalOfUserParam(transaction.getDate(),transaction.getCategory()),jwt);
+                if (budgetGoal != null && budgetGoal.size() > 0 && budgetGoal.get(0).getMaxAmount() < transaction.getTotalAmount()) {
                     alert.append("You spent too much money for ")
                             .append(transaction.getCategory())
                             .append(". your budget goal was ")
                             .append(budgetGoal.get(0).getMaxAmount())
                             .append(", but you paid ")
-                            .append(transaction.getAmount())
+                            .append(transaction.getTotalAmount())
                             .append(" until now.");
                 }
             }

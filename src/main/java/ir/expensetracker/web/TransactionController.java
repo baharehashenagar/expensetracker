@@ -21,9 +21,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.createTransaction(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -32,20 +32,20 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.deleteTransaction(new TransactionDeleteParam(transactionId)));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
-    @GetMapping(value = "/findAllTransactionsOfUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> findAllTransactionsOfUser(@PathVariable("id") Integer transactionId, @RequestHeader("Authorization") String jwt) {
+    @GetMapping(value = "/findAllTransactionsOfUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> findAllTransactionsOfUser(@RequestHeader("Authorization") String jwt) {
         try {
-            return ResponseEntity.ok(transactionService.findAllTransactionsOfUser(new AllTransactionsParam(transactionId), jwt));
+            return ResponseEntity.ok(transactionService.findAllTransactionsOfUser(jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -54,9 +54,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonth(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -65,9 +65,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthDetails(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -76,9 +76,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthByCategory(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -87,9 +87,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.findTransactionsOfUserInMonthGreaterThanSpecificAmount(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -98,9 +98,9 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.saveTransactionsOfUserInMonthAtExcel(transaction, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 }

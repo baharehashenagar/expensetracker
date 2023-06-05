@@ -1,6 +1,7 @@
 package ir.expensetracker.web;
 
 import ir.expensetracker.api.CategoryCreateParam;
+import ir.expensetracker.api.ErrorResult;
 import ir.expensetracker.exception.InvalidParameterException;
 import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.ICategoryService;
@@ -21,9 +22,9 @@ public class CategoryController {
         try {
             return ResponseEntity.ok(categoryService.createCategory(category, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -32,9 +33,9 @@ public class CategoryController {
         try {
             return ResponseEntity.ok(categoryService.findAllCategories(jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 

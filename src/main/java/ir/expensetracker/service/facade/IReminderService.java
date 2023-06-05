@@ -14,5 +14,5 @@ public interface IReminderService {
 
     public List<RemindersOfUserResult> findUserReminders(String jwt);
 
-    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date, String jwt);
+    public List<AllRemindersResult> findAllRemindersForSpecificDate(String date);
 }

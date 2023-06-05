@@ -26,14 +26,14 @@ public class JWTTokenFilter extends OncePerRequestFilter {
         List<String> whiteList=new ArrayList<>();
         whiteList.add("/v2/api-docs");
         whiteList.add("/configuration/ui");
-        whiteList.add("/swagger-resources/**");
+        whiteList.add("/swagger-resources");
         whiteList.add("/configuration/security");
         whiteList.add("/swagger-ui.html");
-        whiteList.add("/webjars/**");
+        whiteList.add("/webjars/");
         whiteList.add("/api/users/login");
         whiteList.add("/api/users");
         whiteList.add("/api/users/forgetpassword");
-        if(whiteList.contains(request.getRequestURI())){
+        if(whiteList.stream().anyMatch(request.getRequestURI()::contains)){
             filterChain.doFilter(request,response);
             return;
         }

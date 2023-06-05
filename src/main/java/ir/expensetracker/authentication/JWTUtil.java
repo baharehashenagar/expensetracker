@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 public class JWTUtil {
 
-    private static final Long JWT_TOKEN_EXPIRATION=3600L;
-    private static final String JWT_SECRET_KEY="expensetracker";
+    private static final Long JWT_TOKEN_EXPIRATION = 3600L;
+    private static final String JWT_SECRET_KEY = "expensetracker";
 
     public static String generateToken(String username, String password, Integer userId) {
         return Jwts.builder()
@@ -26,16 +26,16 @@ public class JWTUtil {
 
     public static Boolean validateToken(String token, String username, String password) {
         Claims claimsList = getAllClaimsFromToken(token);
-        if (claimsList.size()>0 && claimsList.get("username").equals(username) && claimsList.get("password").equals(password) && !isTokenExpired(token)) {
+        if (claimsList.size() > 0 && claimsList.get("username").equals(username) && claimsList.get("password").equals(password) && !isTokenExpired(token)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public static Integer getUserIdFromToken(String token){
+    public static Integer getUserIdFromToken(String token) {
         Claims claimsList = getAllClaimsFromToken(token);
-        if (claimsList.size()>0 && claimsList.containsKey("userId")){
+        if (claimsList.size() > 0 && claimsList.containsKey("userId")) {
             return Integer.valueOf(claimsList.get("userId").toString());
         }
         return null;
@@ -58,5 +58,4 @@ public class JWTUtil {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
-
 }

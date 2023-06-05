@@ -12,12 +12,12 @@ public class TransactionsEntity {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORYID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "CATEGORYID", referencedColumnName = "Id", nullable = false)
     private CategoryEntity category;
 
     @ManyToOne
-    @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false)
     private UserEntity user;
 
     @Column(name = "DESCRIPTION")

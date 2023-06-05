@@ -3,6 +3,10 @@ package ir.expensetracker.api;
 public class SaveTransactionsInExcelResult {
     private boolean success;
 
+    public SaveTransactionsInExcelResult(boolean success) {
+        this.success = success;
+    }
+
     public boolean isSuccess() {
         return success;
     }

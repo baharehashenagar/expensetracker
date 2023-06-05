@@ -13,7 +13,7 @@ public class RemindersEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "USERID", referencedColumnName = "Id", nullable = false)
     private UserEntity user;
 
     @Column(name = "DESCRIPTION", nullable = false)

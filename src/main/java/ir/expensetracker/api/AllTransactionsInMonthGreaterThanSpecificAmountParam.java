@@ -1,6 +1,9 @@
 package ir.expensetracker.api;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class AllTransactionsInMonthGreaterThanSpecificAmountParam {
+    @ApiModelProperty(example = "yyyy-MM-dd")
     private String date;
     private Integer amount;
 

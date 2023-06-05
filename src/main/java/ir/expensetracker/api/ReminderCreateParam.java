@@ -1,7 +1,10 @@
 package ir.expensetracker.api;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ReminderCreateParam {
     private String description;
+    @ApiModelProperty(example = "yyyy-MM-dd")
     private String dueDate;
 
     public String getDescription() {

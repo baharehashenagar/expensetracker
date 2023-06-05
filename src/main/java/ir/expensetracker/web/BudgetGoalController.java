@@ -3,6 +3,7 @@ package ir.expensetracker.web;
 import ir.expensetracker.api.BudgetGoalCreateParam;
 import ir.expensetracker.api.BudgetGoalDeleteParam;
 import ir.expensetracker.api.BudgetGoalOfUserParam;
+import ir.expensetracker.api.ErrorResult;
 import ir.expensetracker.exception.InvalidParameterException;
 import ir.expensetracker.exception.RecordNotFoundException;
 import ir.expensetracker.service.facade.IBudgetGoalService;
@@ -24,9 +25,9 @@ public class BudgetGoalController {
         try {
             return ResponseEntity.ok(budgetGoalService.createBudgetGoal(budgetGoal, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -35,9 +36,9 @@ public class BudgetGoalController {
         try {
             return ResponseEntity.ok(budgetGoalService.deleteBudgetGoal(new BudgetGoalDeleteParam(budgetGoalId), jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -46,9 +47,9 @@ public class BudgetGoalController {
         try {
             return ResponseEntity.ok(budgetGoalService.findUserBudgetGoals(budgetGoal, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 

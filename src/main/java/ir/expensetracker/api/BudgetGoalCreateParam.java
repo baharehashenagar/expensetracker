@@ -1,8 +1,11 @@
 package ir.expensetracker.api;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class BudgetGoalCreateParam {
     private String category;
     private Integer maxAmount;
+    @ApiModelProperty(example = "yyyy-MM-dd")
     private String date;
 
     public String getCategory() {

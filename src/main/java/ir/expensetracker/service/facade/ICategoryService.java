@@ -8,7 +8,7 @@ import java.util.List;
 public interface ICategoryService {
     public CategoryCreateResult createCategory(CategoryCreateParam param, String jwt);
 
-    public CategoryEntity getCategory(String categoryName, String jwt);
+    public CategoryEntity getCategory(String categoryName);
 
     public List<CategoryEntity> findAllCategories(String jwt);
 }

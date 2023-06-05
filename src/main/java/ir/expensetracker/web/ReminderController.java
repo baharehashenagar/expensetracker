@@ -1,6 +1,7 @@
 package ir.expensetracker.web;
 
 
+import ir.expensetracker.api.ErrorResult;
 import ir.expensetracker.api.ReminderCreateParam;
 import ir.expensetracker.api.ReminderDeleteParam;
 import ir.expensetracker.exception.InvalidParameterException;
@@ -23,9 +24,9 @@ public class ReminderController {
         try {
             return ResponseEntity.ok(reminderService.createReminder(user, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
@@ -34,31 +35,31 @@ public class ReminderController {
         try {
             return ResponseEntity.ok(reminderService.deleteReminder(new ReminderDeleteParam(reminderId), jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findUserRemindersForSpecificDate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> findUserRemindersForSpecificDate(@RequestParam String date, @RequestHeader("Authorization") String jwt) {
         try {
             return ResponseEntity.ok(reminderService.findUserRemindersForSpecificDate(date, jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findUserReminders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> findUserReminders(@RequestHeader("Authorization") String jwt) {
         try {
             return ResponseEntity.ok(reminderService.findUserReminders(jwt));
         } catch (InvalidParameterException | RecordNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(e.getMessage()));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResult(e.getMessage()));
         }
     }
 

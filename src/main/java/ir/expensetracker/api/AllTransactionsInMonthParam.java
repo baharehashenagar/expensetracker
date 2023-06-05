@@ -1,11 +1,10 @@
 package ir.expensetracker.api;
 
-public class AllTransactionsInMonthParam {
-    private String date;
+import io.swagger.annotations.ApiModelProperty;
 
-    public AllTransactionsInMonthParam(String date) {
-        this.date = date;
-    }
+public class AllTransactionsInMonthParam {
+    @ApiModelProperty(example = "yyyy-MM-dd")
+    private String date;
 
     public String getDate() {
         return date;

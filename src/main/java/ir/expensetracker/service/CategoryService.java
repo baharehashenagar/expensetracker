@@ -25,7 +25,7 @@ public class CategoryService implements ICategoryService {
         if (param.getCategory() == null || param.getCategory().equals("")) {
             throw new InvalidParameterException("Category must not be null");
         }
-        CategoryEntity result = getCategory(param.getCategory(), jwt);
+        CategoryEntity result = getCategory(param.getCategory());
         if (result != null) {
             throw new InvalidParameterException("Duplicate Category");
         }
@@ -36,7 +36,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryEntity getCategory(String categoryName, String jwt) {
+    public CategoryEntity getCategory(String categoryName) {
         return categoryRepository.findByCategoryName(categoryName);
     }
 
