@@ -7,6 +7,7 @@ import ir.expensetracker.repository.ICategoryRepository;
 import ir.expensetracker.service.facade.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryCreateResult createCategory(CategoryCreateParam param, String jwt) {
         if (param.getCategory() == null || param.getCategory().equals("")) {
             throw new InvalidParameterException("Category must not be null");
@@ -36,11 +38,13 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryEntity getCategory(String categoryName) {
         return categoryRepository.findByCategoryName(categoryName);
     }
 
     @Override
+    @Transactional
     public List<CategoryEntity> findAllCategories(String jwt) {
         return categoryRepository.findAll();
     }

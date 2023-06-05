@@ -12,6 +12,7 @@ import ir.expensetracker.service.facade.IValidatorService;
 import ir.expensetracker.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ReminderService implements IReminderService {
     }
 
     @Override
+    @Transactional
     public ReminderCreateResult createReminder(ReminderCreateParam param, String jwt) {
         UserEntity user = validatorService.validateUserExistence(JWTUtil.getUserIdFromToken(jwt));
         if (param.getDescription() == null || param.getDescription().equals("")) {
@@ -46,6 +48,7 @@ public class ReminderService implements IReminderService {
     }
 
     @Override
+    @Transactional
     public ReminderDeleteResult deleteReminder(ReminderDeleteParam param, String jwt) {
         Optional<RemindersEntity> reminder = remindersRepository.findById(param.getReminderId());
         if (reminder.isPresent()) {
@@ -57,6 +60,7 @@ public class ReminderService implements IReminderService {
     }
 
     @Override
+    @Transactional
     public List<RemindersOfUserResult> findUserRemindersForSpecificDate(String date, String jwt) {
         Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
@@ -64,20 +68,22 @@ public class ReminderService implements IReminderService {
             throw new InvalidParameterException("Date is empty");
         }
         List<RemindersEntity> remindersList = remindersRepository.findUserRemindersForSpecificDate(userId, DateUtil.toDate(date));
-        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
+        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getId(), r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
         return result;
     }
 
     @Override
+    @Transactional
     public List<RemindersOfUserResult> findUserReminders(String jwt) {
         Integer userId = JWTUtil.getUserIdFromToken(jwt);
         validatorService.validateUserExistence(userId);
         List<RemindersEntity> remindersList = remindersRepository.findUserReminders(userId);
-        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
+        List<RemindersOfUserResult> result = remindersList.stream().map(r -> new RemindersOfUserResult(r.getId(), r.getDescription(), DateUtil.fromDate(r.getDueDate()))).collect(Collectors.toList());
         return result;
     }
 
     @Override
+    @Transactional
     public List<AllRemindersResult> findAllRemindersForSpecificDate(String date) {
         if (date == null || date.equals("") || DateUtil.toDate(date) == null) {
             throw new InvalidParameterException("Date is empty");

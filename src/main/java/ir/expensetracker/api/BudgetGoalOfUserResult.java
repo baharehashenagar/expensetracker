@@ -1,14 +1,26 @@
 package ir.expensetracker.api;
 
 public class BudgetGoalOfUserResult {
+    private Integer budgetGoalId;
     private String category;
     private Integer maxAmount;
-    private String dueDate;
+    private String fromDate;
+    private String toDate;
 
-    public BudgetGoalOfUserResult(String category, Integer maxAmount, String dueDate) {
+    public BudgetGoalOfUserResult(Integer budgetGoalId, String category, Integer maxAmount, String fromDate, String toDate) {
+        this.budgetGoalId = budgetGoalId;
         this.category = category;
         this.maxAmount = maxAmount;
-        this.dueDate = dueDate;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+
+    public Integer getBudgetGoalId() {
+        return budgetGoalId;
+    }
+
+    public void setBudgetGoalId(Integer budgetGoalId) {
+        this.budgetGoalId = budgetGoalId;
     }
 
     public String getCategory() {
@@ -27,20 +39,30 @@ public class BudgetGoalOfUserResult {
         this.maxAmount = maxAmount;
     }
 
-    public String getDueDate() {
-        return dueDate;
+    public String getFromDate() {
+        return fromDate;
     }
 
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
 
     @Override
     public String toString() {
         return "{" +
-                "category='" + category + '\'' +
+                "budgetGoalId=" + budgetGoalId +
+                ", category='" + category + '\'' +
                 ", maxAmount=" + maxAmount +
-                ", dueDate='" + dueDate + '\'' +
+                ", fromDate='" + fromDate + '\'' +
+                ", toDate='" + toDate + '\'' +
                 '}';
     }
 }

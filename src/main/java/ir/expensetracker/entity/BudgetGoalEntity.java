@@ -23,8 +23,11 @@ public class BudgetGoalEntity {
     @Column(name = "MAXAMOUNT", nullable = false)
     private Integer maxAmount;
 
-    @Column(name = "BUDGETDATE", nullable = false)
-    private Date budgetDate;
+    @Column(name = "FROMDATE", nullable = false)
+    private Date fromDate;
+
+    @Column(name = "TODATE", nullable = false)
+    private Date toDate;
 
     public Integer getId() {
         return id;
@@ -58,12 +61,20 @@ public class BudgetGoalEntity {
         this.maxAmount = maxAmount;
     }
 
-    public Date getBudgetDate() {
-        return budgetDate;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setBudgetDate(Date budgetDate) {
-        this.budgetDate = budgetDate;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     @Override
@@ -73,7 +84,8 @@ public class BudgetGoalEntity {
                 ", category=" + category +
                 ", user=" + user +
                 ", maxAmount=" + maxAmount +
-                ", budgetDate=" + budgetDate +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
                 '}';
     }
 }

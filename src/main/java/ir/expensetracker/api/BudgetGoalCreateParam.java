@@ -6,7 +6,10 @@ public class BudgetGoalCreateParam {
     private String category;
     private Integer maxAmount;
     @ApiModelProperty(example = "yyyy-MM-dd")
-    private String date;
+    private String fromDate;
+    @ApiModelProperty(example = "yyyy-MM-dd")
+    private String toDate;
+
 
     public String getCategory() {
         return category;
@@ -24,12 +27,20 @@ public class BudgetGoalCreateParam {
         this.maxAmount = maxAmount;
     }
 
-    public String getDate() {
-        return date;
+    public String getFromDate() {
+        return fromDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
 
     @Override
@@ -37,7 +48,8 @@ public class BudgetGoalCreateParam {
         return "{" +
                 "category='" + category + '\'' +
                 ", maxAmount=" + maxAmount +
-                ", date='" + date + '\'' +
+                ", fromDate='" + fromDate + '\'' +
+                ", toDate='" + toDate + '\'' +
                 '}';
     }
 }

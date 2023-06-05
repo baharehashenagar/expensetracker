@@ -13,13 +13,13 @@ public interface ITransactionRepository extends JpaRepository<TransactionsEntity
     @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId")
     public List<TransactionsEntity> findAllTransactionsOfUser(Integer userId);
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.category.id=:categoryId and t.transactionDate <= :date and t.transactionDate >= :date ")
-    public List<TransactionsEntity> findAllTransactionsOfUserForSpecificCategoryInMonth(Integer userId, Integer categoryId, Date date);
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.category.id=:categoryId and t.transactionDate <= :toDate and t.transactionDate >= :fromDate ")
+    public List<TransactionsEntity> findAllTransactionsOfUserForSpecificCategoryInMonth(Integer userId, Integer categoryId, Date fromDate, Date toDate);
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.amount >=:amount and t.transactionDate <= :date and t.transactionDate >= :date ")
-    public List<TransactionsEntity> findAllTransactionsOfUserGreaterThanSpecificAmountInMonth(Integer userId, Integer amount, Date date);
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id =:userId and t.amount >=:amount and t.transactionDate <= :toDate and t.transactionDate >= :fromDate ")
+    public List<TransactionsEntity> findAllTransactionsOfUserGreaterThanSpecificAmountInMonth(Integer userId, Integer amount, Date fromDate, Date toDate);
 
-    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id=:userId and t.transactionDate <= :date and t.transactionDate >= :date ")
-    public List<TransactionsEntity> findAllTransactionsOfUserInMonth(Integer userId, Date date);
+    @Query(value = "SELECT t FROM TransactionsEntity as t WHERE t.user.id=:userId and t.transactionDate <= :toDate and t.transactionDate >= :fromDate ")
+    public List<TransactionsEntity> findAllTransactionsOfUserInMonth(Integer userId, Date fromDate, Date toDate);
 
 }

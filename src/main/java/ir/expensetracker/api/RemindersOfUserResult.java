@@ -1,12 +1,22 @@
 package ir.expensetracker.api;
 
 public class RemindersOfUserResult {
+    private Integer reminderId;
     private String description;
     private String dueDate;
 
-    public RemindersOfUserResult(String description, String dueDate) {
+    public RemindersOfUserResult(Integer reminderId, String description, String dueDate) {
+        this.reminderId = reminderId;
         this.description = description;
         this.dueDate = dueDate;
+    }
+
+    public Integer getReminderId() {
+        return reminderId;
+    }
+
+    public void setReminderId(Integer reminderId) {
+        this.reminderId = reminderId;
     }
 
     public String getDescription() {
@@ -28,7 +38,8 @@ public class RemindersOfUserResult {
     @Override
     public String toString() {
         return "{" +
-                "description='" + description + '\'' +
+                "reminderId=" + reminderId +
+                ", description='" + description + '\'' +
                 ", dueDate='" + dueDate + '\'' +
                 '}';
     }

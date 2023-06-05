@@ -12,14 +12,14 @@ import java.util.List;
 public interface IBudgetGoalRepository extends JpaRepository<BudgetGoalEntity, Integer> {
 
     @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId " +
-            "and bg.budgetDate <= :date and bg.budgetDate >= :date ")
-    public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategoryInMonth(Integer userId, Integer categoryId, Date date);
+            "and bg.toDate >= :toDate and bg.fromDate <= :fromDate ")
+    public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategoryInMonth(Integer userId, Integer categoryId, Date fromDate, Date toDate);
 
     @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.category.id=:categoryId ")
     public List<BudgetGoalEntity> findUserBudgetGoalForSpecificCategory(Integer userId, Integer categoryId);
 
-    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.budgetDate <= :date and bg.budgetDate >= :date ")
-    public List<BudgetGoalEntity> findUserBudgetGoalInMonth(Integer userId, Date date);
+    @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId and bg.toDate >= :toDate and bg.fromDate <= :fromDate ")
+    public List<BudgetGoalEntity> findUserBudgetGoalInMonth(Integer userId, Date fromDate, Date toDate);
 
     @Query(value = "SELECT bg FROM BudgetGoalEntity as bg WHERE bg.user.id=:userId")
     public List<BudgetGoalEntity> findUserBudgetGoal(Integer userId);

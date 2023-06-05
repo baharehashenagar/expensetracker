@@ -4,20 +4,31 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class BudgetGoalOfUserParam {
     @ApiModelProperty(example = "yyyy-MM-dd")
-    private String date;
+    private String fromDate;
+    @ApiModelProperty(example = "yyyy-MM-dd")
+    private String toDate;
     private String category;
 
-    public BudgetGoalOfUserParam(String date, String category) {
-        this.date = date;
+    public BudgetGoalOfUserParam(String fromDate, String toDate, String category) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
         this.category = category;
     }
 
-    public String getDate() {
-        return date;
+    public String getFromDate() {
+        return fromDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
 
     public String getCategory() {
@@ -31,7 +42,8 @@ public class BudgetGoalOfUserParam {
     @Override
     public String toString() {
         return "{" +
-                "date='" + date + '\'' +
+                "fromDate='" + fromDate + '\'' +
+                ", toDate='" + toDate + '\'' +
                 ", category='" + category + '\'' +
                 '}';
     }

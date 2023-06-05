@@ -10,6 +10,7 @@ import ir.expensetracker.service.facade.IUserService;
 import ir.expensetracker.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public UserCreateResult createUser(UserCreateParam input) throws InvalidParameterException {
         UserEntity result = getUser(input.getUsername());
         if (result != null) {
@@ -48,6 +50,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public UserChangePasswordResult changePassword(UserChangePasswordParam input, String jwt) {
         Optional<UserEntity> result = userRepository.findById(JWTUtil.getUserIdFromToken(jwt));
         if (!result.isPresent()) {
@@ -62,6 +65,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public UserForgetPasswordResult forgetPassword(UserForgetPasswordParam input) {
         UserEntity user = getUser(input.getUsername());
         if (user == null) {
@@ -79,6 +83,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public UserLoginResult login(UserLoginParam input) {
         UserEntity user = getUser(input.getUsername());
         if (user == null) {
@@ -92,11 +97,13 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public UserEntity getUser(String username) {
         return userRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional
     public Optional<UserEntity> getUserById(Integer userId) {
         return userRepository.findById(userId);
     }

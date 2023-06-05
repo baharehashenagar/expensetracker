@@ -8,6 +8,7 @@ import ir.expensetracker.service.facade.IUserService;
 import ir.expensetracker.service.facade.IValidatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public class ValidatorService implements IValidatorService {
         this.categoryService=categoryService;
     }
     @Override
+    @Transactional
     public UserEntity validateUserExistence(Integer userId) {
         Optional<UserEntity> user=userService.getUserById(userId);
         if(!user.isPresent()){
@@ -32,6 +34,7 @@ public class ValidatorService implements IValidatorService {
     }
 
     @Override
+    @Transactional
     public CategoryEntity validateCategoryExistence(String categoryName) {
         CategoryEntity category=categoryService.getCategory(categoryName);
         if(category==null){
