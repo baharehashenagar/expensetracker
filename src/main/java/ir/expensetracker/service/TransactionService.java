@@ -10,6 +10,7 @@ import ir.expensetracker.repository.ITransactionRepository;
 import ir.expensetracker.service.facade.ITransactionService;
 import ir.expensetracker.service.facade.IValidatorService;
 import ir.expensetracker.util.DateUtil;
+import ir.expensetracker.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,11 +101,11 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public SaveTransactionsInExcelResult saveTransactionsOfUserInMonthAtExcel(AllTransactionsInMonthParam param) {
-        validatorService.validateUserExistence(param.getUserId());
+        UserEntity user=validatorService.validateUserExistence(param.getUserId());
         Date date=DateUtil.getDate(param.getDate());
         List<TransactionsEntity> transactionsEntityList=transactionRepository.findAllTransactionsOfUserInMonth(param.getUserId(),date);
         List<AllTransactionsResult> result=transactionsEntityList.stream().map(t->new AllTransactionsResult(t.getCategory().getName(),t.getDescription(),DateUtil.fromDate(t.getTransactionDate()),t.getAmount())).collect(Collectors.toList());
-        // TODO SAVE IN EXCEL
+        ExcelUtil.saveInExcelFile(("transactions-"+user.getUsername()+".xlsx"),result);
         return null;
     }
 }

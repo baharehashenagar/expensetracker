@@ -1,6 +1,7 @@
 package ir.expensetracker.service;
 
 import ir.expensetracker.api.*;
+import ir.expensetracker.authentication.JWTUtil;
 import ir.expensetracker.connector.SMSCenter;
 import ir.expensetracker.entity.UserEntity;
 import ir.expensetracker.exception.InvalidParameterException;
@@ -85,8 +86,7 @@ public class UserService implements IUserService {
         if(input.getPassword()==null || input.getPassword().equals("") || user.getPassword().equals(SecurityUtil.SHA256(input.getPassword()))){
             throw new InvalidParameterException("Invalid Password");
         }
-        String token="";
-        //TODO generate token
+        String token= JWTUtil.generateToken(input.getUsername(),input.getPassword(),user.getId());
         return new UserLoginResult(token);
     }
 
